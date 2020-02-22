@@ -14,9 +14,18 @@ namespace TiendaVirtualAlejandro.Models
     
     public partial class Producto
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Producto()
+        {
+            this.Pedido = new HashSet<Pedido>();
+        }
+    
         public int Id { get; set; }
         public string Nombre { get; set; }
         public decimal Precio { get; set; }
         public string Foto { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pedido> Pedido { get; set; }
     }
 }
