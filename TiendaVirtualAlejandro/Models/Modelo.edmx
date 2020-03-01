@@ -9,6 +9,7 @@
     <EntitySet Name="Cliente" EntityType="Modelo.Store.Cliente" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Producto" EntityType="Modelo.Store.Producto" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Pedido" EntityType="Modelo.Store.Pedido" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Stock" EntityType="Modelo.Store.Stock" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PedidoProducto" EntityType="Modelo.Store.PedidoProducto" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_PedidoProducto_Pedido" Association="Modelo.Store.FK_PedidoProducto_Pedido">
       <End Role="Pedido" EntitySet="Pedido" />
@@ -21,6 +22,10 @@
     <AssociationSet Name="ClientePedido" Association="Modelo.Store.ClientePedido">
       <End Role="Cliente" EntitySet="Cliente" />
       <End Role="Pedido" EntitySet="Pedido" />
+    </AssociationSet>
+    <AssociationSet Name="StockProducto" Association="Modelo.Store.StockProducto">
+      <End Role="Stock" EntitySet="Stock" />
+      <End Role="Producto" EntitySet="Producto" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Cliente">
@@ -40,6 +45,8 @@
     <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Precio" Type="decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="Foto" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Descripción" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Category" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Pedido">
     <Key>
@@ -47,6 +54,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Cliente_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Stock">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cantidad" Type="int" Nullable="false" />
+    <Property Name="Producto_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PedidoProducto">
     <Key>
@@ -65,6 +80,18 @@
       </Principal>
       <Dependent Role="Pedido">
         <PropertyRef Name="Cliente_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StockProducto">
+    <End Role="Stock" Type="Modelo.Store.Stock" Multiplicity="*" />
+    <End Role="Producto" Type="Modelo.Store.Producto" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Producto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="Producto_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -108,6 +135,11 @@
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Pedido" EntitySet="Pedido" />
           </AssociationSet>
+          <EntitySet Name="Stock" EntityType="Modelo.Stock" />
+          <AssociationSet Name="StockProducto" Association="Modelo.StockProducto">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Cliente">
           <Key>
@@ -128,6 +160,9 @@
           <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Foto" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Pedido" Relationship="Modelo.PedidoProducto" FromRole="Producto" ToRole="Pedido" />
+          <Property Name="Descripción" Type="String" Nullable="false" />
+          <Property Name="Category" Type="Modelo.Category" Nullable="false" />
+          <NavigationProperty Name="Stock" Relationship="Modelo.StockProducto" FromRole="Producto" ToRole="Stock" />
         </EntityType>
         <EntityType Name="Pedido">
           <Key>
@@ -144,6 +179,26 @@
         <Association Name="ClientePedido">
           <End Type="Modelo.Cliente" Role="Cliente" Multiplicity="1" />
           <End Type="Modelo.Pedido" Role="Pedido" Multiplicity="*" />
+        </Association>
+        <EnumType Name="Category">
+          <Member Name="FrutosSecos" />
+          <Member Name="Legumbres" />
+          <Member Name="Cereales" />
+          <Member Name="Verduras" />
+          <Member Name="Frutas" />
+          <Member Name="Condimentos" />
+        </EnumType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Producto" Relationship="Modelo.StockProducto" FromRole="Stock" ToRole="Producto" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="StockProducto">
+          <End Type="Modelo.Stock" Role="Stock" Multiplicity="1" />
+          <End Type="Modelo.Producto" Role="Producto" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -168,6 +223,8 @@
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Precio" ColumnName="Precio" />
           <ScalarProperty Name="Foto" ColumnName="Foto" />
+          <ScalarProperty Name="Descripción" ColumnName="Descripción" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -175,6 +232,14 @@
       <EntityTypeMapping TypeName="IsTypeOf(Modelo.Pedido)">
         <MappingFragment StoreEntitySet="Pedido">
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stock">
+      <EntityTypeMapping TypeName="IsTypeOf(Modelo.Stock)">
+        <MappingFragment StoreEntitySet="Stock">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -191,6 +256,14 @@
         <ScalarProperty Name="Id" ColumnName="Cliente_Id" />
       </EndProperty>
       <EndProperty Name="Pedido">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StockProducto" TypeName="Modelo.StockProducto" StoreEntitySet="Stock">
+      <EndProperty Name="Producto">
+        <ScalarProperty Name="Id" ColumnName="Producto_Id" />
+      </EndProperty>
+      <EndProperty Name="Stock">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

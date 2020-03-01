@@ -14,10 +14,13 @@ namespace TiendaVirtualAlejandro.Controllers
     {
         private ModeloContainer db = new ModeloContainer();
 
-        // GET: Producto
-        public ActionResult Index()
+        // GET: Producto de una categoría
+        public ActionResult Index(Category? category)
         {
-            return View(db.Producto.ToList());
+            if(category == null)
+                return View(db.Producto.ToList());
+            else
+                return View(db.Producto.Where(p => p.Category.ToString().Equals(category.ToString())).ToList());
         }
 
         // GET: Producto/Details/5
@@ -46,10 +49,11 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Foto")] Producto producto)
-        {
+        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category")] Producto producto)
+        {            
             if (ModelState.IsValid)
             {
+                db.Stock.Add(new Stock() { Cantidad = 1, Producto = producto });
                 db.Producto.Add(producto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -78,7 +82,7 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Foto")] Producto producto)
+        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category")] Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -110,6 +114,15 @@ namespace TiendaVirtualAlejandro.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Producto producto = db.Producto.Find(id);
+
+            if (db.Stock.Any(s => s.Producto.Id.Equals(id)))
+            {
+                foreach (var stoc in db.Stock.Where(s => s.Producto.Id.Equals(id)).ToList())
+                {
+                    db.Stock.Remove(stoc);
+                }
+            }
+
             db.Producto.Remove(producto);
             db.SaveChanges();
             return RedirectToAction("Index");

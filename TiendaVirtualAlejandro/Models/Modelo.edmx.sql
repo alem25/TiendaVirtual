@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/01/2020 12:25:28
+-- Date Created: 03/01/2020 17:14:01
 -- Generated from EDMX file: D:\MiW-UPM\net\TiendaVirtualAlejandro\TiendaVirtualAlejandro\Models\Modelo.edmx
 -- --------------------------------------------------
 
@@ -26,6 +26,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ClientePedido]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Pedido] DROP CONSTRAINT [FK_ClientePedido];
 GO
+IF OBJECT_ID(N'[dbo].[FK_StockProducto]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[StockSet] DROP CONSTRAINT [FK_StockProducto];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -39,6 +42,9 @@ IF OBJECT_ID(N'[dbo].[Producto]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Pedido]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Pedido];
+GO
+IF OBJECT_ID(N'[dbo].[StockSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[StockSet];
 GO
 IF OBJECT_ID(N'[dbo].[PedidoProducto]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PedidoProducto];
@@ -62,7 +68,9 @@ CREATE TABLE [dbo].[Producto] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nombre] nvarchar(max)  NOT NULL,
     [Precio] decimal(18,2)  NOT NULL,
-    [Foto] nvarchar(max)  NOT NULL
+    [Foto] nvarchar(max)  NOT NULL,
+    [Descripción] nvarchar(max)  NOT NULL,
+    [Category] int  NOT NULL
 );
 GO
 
@@ -70,6 +78,14 @@ GO
 CREATE TABLE [dbo].[Pedido] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Cliente_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Stock'
+CREATE TABLE [dbo].[Stock] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Cantidad] int  NOT NULL,
+    [Producto_Id] int  NOT NULL
 );
 GO
 
@@ -99,6 +115,12 @@ GO
 -- Creating primary key on [Id] in table 'Pedido'
 ALTER TABLE [dbo].[Pedido]
 ADD CONSTRAINT [PK_Pedido]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Stock'
+ALTER TABLE [dbo].[Stock]
+ADD CONSTRAINT [PK_Stock]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -149,6 +171,21 @@ GO
 CREATE INDEX [IX_FK_ClientePedido]
 ON [dbo].[Pedido]
     ([Cliente_Id]);
+GO
+
+-- Creating foreign key on [Producto_Id] in table 'Stock'
+ALTER TABLE [dbo].[Stock]
+ADD CONSTRAINT [FK_StockProducto]
+    FOREIGN KEY ([Producto_Id])
+    REFERENCES [dbo].[Producto]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_StockProducto'
+CREATE INDEX [IX_FK_StockProducto]
+ON [dbo].[Stock]
+    ([Producto_Id]);
 GO
 
 -- --------------------------------------------------
