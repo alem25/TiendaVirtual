@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/22/2020 13:08:30
--- Generated from EDMX file: C:\Users\alem2\source\repos\TiendaVirtualAlejandro\TiendaVirtualAlejandro\Models\Modelo.edmx
+-- Date Created: 03/01/2020 12:25:28
+-- Generated from EDMX file: D:\MiW-UPM\net\TiendaVirtualAlejandro\TiendaVirtualAlejandro\Models\Modelo.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,6 +17,15 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_PedidoProducto_Pedido]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PedidoProducto] DROP CONSTRAINT [FK_PedidoProducto_Pedido];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PedidoProducto_Producto]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PedidoProducto] DROP CONSTRAINT [FK_PedidoProducto_Producto];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ClientePedido]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Pedido] DROP CONSTRAINT [FK_ClientePedido];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -27,6 +36,12 @@ IF OBJECT_ID(N'[dbo].[Cliente]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Producto]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Producto];
+GO
+IF OBJECT_ID(N'[dbo].[Pedido]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Pedido];
+GO
+IF OBJECT_ID(N'[dbo].[PedidoProducto]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PedidoProducto];
 GO
 
 -- --------------------------------------------------
@@ -46,7 +61,7 @@ GO
 CREATE TABLE [dbo].[Producto] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nombre] nvarchar(max)  NOT NULL,
-    [Precio] decimal(18,0)  NOT NULL,
+    [Precio] decimal(18,2)  NOT NULL,
     [Foto] nvarchar(max)  NOT NULL
 );
 GO
