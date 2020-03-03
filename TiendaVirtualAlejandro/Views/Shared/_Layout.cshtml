@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <title>@ViewBag.Title - Tienda Virtual Alejandro</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -22,13 +22,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                     @if (!User.Identity.Name.Equals(""))
                     {
-                        <li>@Html.ActionLink("PROFILE", "Profile", "Home")</li>
+                        <li>@Html.ActionLink("Mis Pedidos", "Index", "Pedido")</li>
+                        <li>@Html.ActionLink("Mi Perfil", "MiPerfil", "Cliente")</li>
                     }
+                    <li>@Html.ActionLink("Carrito de Compra", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

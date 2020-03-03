@@ -115,6 +115,11 @@ namespace TiendaVirtualAlejandro.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult MiPerfil()
+        {
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
