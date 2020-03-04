@@ -1,0 +1,29 @@
+﻿@model TiendaVirtualAlejandro.Models.CarritoCompra
+
+@{
+    ViewBag.Title = "MiCarrito";
+}
+
+<h2>Mi Carrito</h2>
+
+<div>
+    <h4>Lista de Productos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+    </dl>
+</div>
+<p>
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            <dt>
+                @Html.Name(item.Nombre)
+            </dt>
+
+            <dd>
+                @Html.Display(item.Nombre)
+            </dd>
+        }
+    }
+</p>

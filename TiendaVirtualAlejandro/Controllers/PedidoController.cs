@@ -14,13 +14,13 @@ namespace TiendaVirtualAlejandro.Controllers
     {
         private ModeloContainer db = new ModeloContainer();
 
-        // GET: Pedidoes
+        // GET: Pedido
         public ActionResult Index()
         {
             return View(db.Pedido.ToList());
         }
 
-        // GET: Pedidoes/Details/5
+        // GET: Pedido/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,13 +35,13 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // GET: Pedidoes/Create
+        // GET: Pedido/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Pedidoes/Create
+        // POST: Pedido/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -58,7 +58,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // GET: Pedidoes/Edit/5
+        // GET: Pedido/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // POST: Pedidoes/Edit/5
+        // POST: Pedido/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -89,7 +89,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // GET: Pedidoes/Delete/5
+        // GET: Pedido/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,7 +104,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // POST: Pedidoes/Delete/5
+        // POST: Pedido/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -113,6 +113,11 @@ namespace TiendaVirtualAlejandro.Controllers
             db.Pedido.Remove(pedido);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult MiCarrito()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)
