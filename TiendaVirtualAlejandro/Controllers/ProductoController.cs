@@ -128,6 +128,17 @@ namespace TiendaVirtualAlejandro.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult AddToCart(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //db.Stock.Remove(db.Stock.Single(s => s.Producto.Id.Equals(id)));
+            //db.SaveChanges();
+            return RedirectToAction("MiCarrito", "Pedido", id);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

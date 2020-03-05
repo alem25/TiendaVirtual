@@ -18,11 +18,11 @@
         foreach (var item in Model)
         {
             <dt>
-                @Html.Name(item.Nombre)
+                @Html.NameFor(i => item.Nombre)
             </dt>
 
             <dd>
-                @Html.Display(item.Nombre)
+                @Html.DisplayFor(i => item.Nombre)
             </dd>
         }
     }
