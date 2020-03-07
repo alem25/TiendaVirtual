@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace TiendaVirtualAlejandro.Models
 {
     //[ModelBinder(typeof(CarritoCompraModelBinder))]
-    public class CarritoCompra : List<Producto>
+    public class CarritoCompra : Dictionary<Producto, int>
     {
 
     }

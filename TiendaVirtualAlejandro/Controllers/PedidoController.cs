@@ -117,7 +117,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult MiCarrito(int? id)
+        public ActionResult MiCarrito()
         {
             if (this.Session[key] == null)
             {
@@ -126,12 +126,6 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
                 cc = (CarritoCompra)this.Session[key];
-
-            if(id != null)
-            {
-                ((CarritoCompra)this.Session[key]).Add(db.Producto.Find(id));
-                cc = (CarritoCompra)this.Session[key];
-            }
 
             return View(cc);
         }

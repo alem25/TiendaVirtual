@@ -115,9 +115,36 @@ namespace TiendaVirtualAlejandro.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public ActionResult MiPerfil()
         {
-            return View();
+            var cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(this.User.Identity.Name));
+            return View(cliente);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MiPerfil([Bind(Include = "Id,Nombre,Apellidos,Email")] Cliente cliente)
+        {
+            if (!db.Cliente.Any(c => c.Email.Equals(this.User.Identity.Name)))
+            {
+                db.Cliente.Add(new Cliente()
+                {
+                    Email = this.User.Identity.Name,
+                    Nombre = cliente.Nombre,
+                    Apellidos = cliente.Apellidos,
+                });
+            }
+            else
+            {
+                var cli = db.Cliente.Single(c=>c.Email.Equals(this.User.Identity.Name));
+                cli.Nombre = cliente.Nombre;
+                cli.Apellidos = cliente.Apellidos;
+            }
+            db.SaveChanges();
+
+            return View(cliente);
         }
 
         protected override void Dispose(bool disposing)

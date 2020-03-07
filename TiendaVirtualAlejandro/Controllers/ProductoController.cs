@@ -13,6 +13,7 @@ namespace TiendaVirtualAlejandro.Controllers
     public class ProductoController : Controller
     {
         private ModeloContainer db = new ModeloContainer();
+        private readonly static string key = "carritokey";
 
         // GET: Producto de una categoría
         public ActionResult Index(Category? category)
@@ -134,9 +135,18 @@ namespace TiendaVirtualAlejandro.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //db.Stock.Remove(db.Stock.Single(s => s.Producto.Id.Equals(id)));
-            //db.SaveChanges();
-            return RedirectToAction("MiCarrito", "Pedido", id);
+            else
+            {
+                var session = (CarritoCompra)this.Session[key];
+                if (session.Keys.Any(k => k.Id.Equals(id)))
+                {
+                    session[session.Keys.Where(p => p.Id.Equals(id)).Single()]++;
+                }
+                else
+                    session.Add(db.Producto.Find(id), 1);
+            }
+
+            return RedirectToAction("MiCarrito", "Pedido");
         }
 
         protected override void Dispose(bool disposing)
