@@ -22,10 +22,18 @@
                 @Html.LabelFor(i => Model.Keys.First().Nombre)
             </th>
             <th>
+                @Html.Label("Cantidad en almacén")
+            </th>
+            <th>
                 @Html.LabelFor(i => Model.Keys.First().Precio)
             </th>
             <th>
-                @Html.LabelFor(i => Model.Keys.First().Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("Cantidad a comprar")
+            </th>
+            <th>
+                @Html.Label("Subtotal")
+            </th>
+            <th>
             </th>
             <th>
             </th>
@@ -42,16 +50,33 @@
                         @Html.ActionLink(item.Key.Nombre, "Details", "Producto", new { id = item.Key.Id }, null)
                     </td>
                     <td>
-                        @Html.DisplayFor(i => item.Key.Precio)
+                        @Html.DisplayFor(c => item.Key.Cantidad) Kg
                     </td>
                     <td>
-                        @Html.DisplayFor(c => item.Value)
+                        @Html.DisplayFor(i => item.Key.Precio) €/Kg
                     </td>
                     <td>
-                        @Html.ActionLink("Quitar del carrito", "RemoveFromCart", "Producto", new { id = item.Key.Id, cantidad = item.Value }, null)
+                        @Html.DisplayFor(c => item.Value) Kg
+                    </td>
+                    <td>
+                        @(item.Key.Precio * item.Value) €
+                    </td>
+                    <td>
+                        @if (item.Key.Cantidad > 0)
+                        {
+                            <img src="~/Content/Fotos/plus.png" style="max-width:25px;cursor:pointer" alt="Image"
+                                 onclick="location.href='@Url.Action("AddOneMore", "Producto", new { id = item.Key.Id })'">
+                        }
+                        <img src="~/Content/Fotos/minus.png" style="max-width:25px;cursor:pointer" alt="Image"
+                             onclick="location.href='@Url.Action("RemoveOne", "Producto", new { id = item.Key.Id })'">
+                    </td>
+                    <td>
+                        @Html.ActionLink("Quitar todos", "RemoveFromCart", "Producto", new { id = item.Key.Id, cantidad = item.Value }, null)
                     </td>
                 </tr>
             }
         }
     </table>
+    @Html.Label("Total Carrito")
+    @Html.DisplayFor(c => Model.Total) €
 </p>

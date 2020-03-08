@@ -13,7 +13,6 @@ namespace TiendaVirtualAlejandro.Controllers
     public class PedidoController : Controller
     {
         private ModeloContainer db = new ModeloContainer();
-        private readonly static string key = "carritokey";
 
         // GET: Pedido
         public ActionResult Index()
@@ -118,20 +117,12 @@ namespace TiendaVirtualAlejandro.Controllers
 
         public ActionResult MiCarrito(CarritoCompra cc)
         {
+            var listProducts = db.Producto;
+            foreach(var key in cc.Keys.ToList())
+            {
+                key.Cantidad = listProducts.Find(key.Id).Cantidad;
+            }
             return View(cc);
-        }
-
-        public ActionResult EditCart()
-        {
-            return View((CarritoCompra)this.Session[key]);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditCart(CarritoCompra cc)
-        {
-            this.Session[key] = cc;
-            return RedirectToAction("MiCarrito","Pedido", null);
         }
 
         protected override void Dispose(bool disposing)

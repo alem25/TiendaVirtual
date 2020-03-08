@@ -10,6 +10,8 @@ namespace TiendaVirtualAlejandro.Models
     public class CarritoCompra : Dictionary<Producto, int>
     {
         public Cliente Cliente { get; set; }
+
+        public decimal Total { get; set; }
     }
 
     public class CarritoCompraModelBinder : IModelBinder
@@ -23,10 +25,19 @@ namespace TiendaVirtualAlejandro.Models
             if (controllerContext.HttpContext.Session[Ksc] == null)
             {
                 cc = new CarritoCompra();
+                cc.Total = 0;
                 controllerContext.HttpContext.Session[Ksc] = cc;
             }
             else
+            {
                 cc = (CarritoCompra)controllerContext.HttpContext.Session[Ksc];
+                cc.Total = 0;
+                
+                for (int i = 0; i < cc.Keys.Count; i++)
+                {
+                    cc.Total += cc.Keys.ToList()[i].Precio * cc[cc.Keys.ToList()[i]];
+                }
+            }
 
             return cc;
         }
