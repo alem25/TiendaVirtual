@@ -23,7 +23,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cantidad)
+            @if (Model.Cantidad > 0)
+            {
+                @Html.DisplayFor(model => model.Cantidad)
+            }
+            else
+            {
+                @Html.Label("Sin stock");
+            }
         </dd>
 
         <dt>
@@ -52,7 +59,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Add To Cart", "AddToCart", new { id = Model.Id }) |
+    @if (Model.Cantidad > 0)
+    {
+        @Html.ActionLink("Add To Cart", "AddToCart", new { id = Model.Id }) @Html.Value("|")
+    }
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

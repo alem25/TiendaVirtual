@@ -34,7 +34,7 @@
             {
                 <tr>
                     <td>
-                        <img src="~/Content/Fotos/@item.Key.Foto" style="width:50px;height:50px;" />
+                        <img src="~/Content/Fotos/@item.Key.Foto" style="max-width: 64px;" />
                     </td>
                     <td>
                         @Html.ActionLink(item.Key.Nombre, "Details", "Producto", new { id = item.Key.Id }, null)
@@ -43,7 +43,7 @@
                         @Html.DisplayFor(i => item.Key.Precio)
                     </td>
                     <td>
-                        @Html.DisplayFor(c => item.Key.Cantidad)
+                        @Html.DisplayFor(c => item.Value)
                     </td>
                     <td>
                         @Html.ActionLink("Modificar cantidad", "EditCart", "Pedido", new { id = item.Key.Id }, null)

@@ -128,13 +128,23 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                var session = (CarritoCompra)this.Session[key];
-                if (session.Keys.Any(k => k.Id.Equals(id)))
+                Producto prod = db.Producto.Find(id);
+
+                if(prod.Cantidad > 0)
                 {
-                    session[session.Keys.Where(p => p.Id.Equals(id)).Single()]++;
+                    CarritoCompra session = (CarritoCompra)this.Session[key];
+                    if (session.Keys.Any(k => k.Id.Equals(id)))
+                    {
+                        session[session.Keys.Where(p => p.Id.Equals(id)).Single()]++;
+                    }
+                    else
+                        session.Add(db.Producto.Find(id), 1);
+                    prod.Cantidad--;
+
+                    db.SaveChanges();
                 }
                 else
-                    session.Add(db.Producto.Find(id), 1);
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             return RedirectToAction("MiCarrito", "Pedido");
