@@ -19,6 +19,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cantidad)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Precio)
         </dt>
 
@@ -27,11 +35,10 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Foto)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Foto)
+            <img src="~/Content/Fotos/@Model.Foto" />
         </dd>
 
         <dt>
@@ -45,6 +52,7 @@
     </dl>
 </div>
 <p>
+    @Html.ActionLink("Add To Cart", "AddToCart", new { id = Model.Id }) |
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

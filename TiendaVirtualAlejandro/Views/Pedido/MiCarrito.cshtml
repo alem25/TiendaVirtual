@@ -25,7 +25,7 @@
                 @Html.LabelFor(i => Model.Keys.First().Precio)
             </th>
             <th>
-                @Html.LabelFor(i => Model.Keys.First().Stock.Cantidad)
+                @Html.LabelFor(i => Model.Keys.First().Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
             </th>
         </tr>
         @if (Model != null && Model.Count > 0)
@@ -37,16 +37,23 @@
                         <img src="~/Content/Fotos/@item.Key.Foto" style="width:50px;height:50px;" />
                     </td>
                     <td>
-                        @Html.DisplayFor(i => item.Key.Nombre)
+                        @Html.ActionLink(item.Key.Nombre, "Details", "Producto", new { id = item.Key.Id }, null)
                     </td>
                     <td>
                         @Html.DisplayFor(i => item.Key.Precio)
                     </td>
                     <td>
-                        @Html.DisplayFor(i => item.Value)
+                        @Html.DisplayFor(c => item.Key.Cantidad)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Modificar cantidad", "EditCart", "Pedido", new { id = item.Key.Id }, null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Quitar del carrito", "RemoveFromCart", "Producto", new { id = item.Key.Id }, null)
                     </td>
                 </tr>
             }
         }
+
     </table>
 </p>

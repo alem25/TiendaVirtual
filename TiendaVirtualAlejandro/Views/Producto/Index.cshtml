@@ -26,7 +26,7 @@
             @Html.DisplayNameFor(model => model.Category)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Stock.Cantidad)
+            @Html.DisplayNameFor(model => model.Cantidad)
         </th>
         <th></th>
     </tr>
@@ -49,7 +49,7 @@
         @Html.DisplayFor(modelItem => item.Category)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Stock.Cantidad)
+        @Html.DisplayFor(modelItem => item.Cantidad)
     </td>
     <td>
         @Html.ActionLink("Add To Cart", "AddToCart", new { id = item.Id }) |

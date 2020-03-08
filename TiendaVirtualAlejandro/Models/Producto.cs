@@ -26,9 +26,9 @@ namespace TiendaVirtualAlejandro.Models
         public string Foto { get; set; }
         public string Descripción { get; set; }
         public Category Category { get; set; }
+        public int Cantidad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pedido> Pedido { get; set; }
-        public virtual Stock Stock { get; set; }
     }
 }

@@ -50,11 +50,10 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category")] Producto producto)
+        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category,Cantidad")] Producto producto)
         {            
             if (ModelState.IsValid)
             {
-                db.Stock.Add(new Stock() { Cantidad = 1, Producto = producto });
                 db.Producto.Add(producto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,7 +82,7 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category")] Producto producto)
+        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category,Cantidad")] Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -116,14 +115,6 @@ namespace TiendaVirtualAlejandro.Controllers
         {
             Producto producto = db.Producto.Find(id);
 
-            if (db.Stock.Any(s => s.Producto.Id.Equals(id)))
-            {
-                foreach (var stoc in db.Stock.Where(s => s.Producto.Id.Equals(id)).ToList())
-                {
-                    db.Stock.Remove(stoc);
-                }
-            }
-
             db.Producto.Remove(producto);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -146,6 +137,40 @@ namespace TiendaVirtualAlejandro.Controllers
                     session.Add(db.Producto.Find(id), 1);
             }
 
+            return RedirectToAction("MiCarrito", "Pedido");
+        }
+
+        public ActionResult EditCart(int? id)
+        {
+            int cantidad;
+            CarritoCompra session = (CarritoCompra)this.Session[key];
+
+            if (id == null || !session.Keys.Any(k => k.Id.Equals(id)))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                cantidad = session[session.Keys.Single(p => p.Id.Equals(id))];
+            }
+
+            return View(cantidad);
+        }
+
+        public ActionResult RemoveFromCart(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                var session = (CarritoCompra)this.Session[key];
+                if (session.Keys.Any(k => k.Id.Equals(id)))
+                {
+                    session.Remove(session.Keys.Where(p => p.Id.Equals(id)).Single());
+                }
+            }
             return RedirectToAction("MiCarrito", "Pedido");
         }
 

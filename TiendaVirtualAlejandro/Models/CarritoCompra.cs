@@ -9,7 +9,7 @@ namespace TiendaVirtualAlejandro.Models
     //[ModelBinder(typeof(CarritoCompraModelBinder))]
     public class CarritoCompra : Dictionary<Producto, int>
     {
-
+        public Cliente Cliente { get; set; }
     }
 
     public class CarritoCompraModelBinder : IModelBinder

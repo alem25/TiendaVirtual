@@ -10,8 +10,6 @@
         <EntityTypeShape EntityType="Modelo.Pedido" Width="1.5" PointX="3.125" PointY="1.375" />
         <AssociationConnector Association="Modelo.PedidoProducto" />
         <AssociationConnector Association="Modelo.ClientePedido" />
-        <EntityTypeShape EntityType="Modelo.Stock" Width="1.5" PointX="7.875" PointY="1.375" />
-        <AssociationConnector Association="Modelo.StockProducto" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
