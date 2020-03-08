@@ -27,6 +27,8 @@
             <th>
                 @Html.LabelFor(i => Model.Keys.First().Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
             </th>
+            <th>
+            </th>
         </tr>
         @if (Model != null && Model.Count > 0)
         {
@@ -46,14 +48,10 @@
                         @Html.DisplayFor(c => item.Value)
                     </td>
                     <td>
-                        @Html.ActionLink("Modificar cantidad", "EditCart", "Pedido", new { id = item.Key.Id }, null)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Quitar del carrito", "RemoveFromCart", "Producto", new { id = item.Key.Id }, null)
+                        @Html.ActionLink("Quitar del carrito", "RemoveFromCart", "Producto", new { id = item.Key.Id, cantidad = item.Value }, null)
                     </td>
                 </tr>
             }
         }
-
     </table>
 </p>

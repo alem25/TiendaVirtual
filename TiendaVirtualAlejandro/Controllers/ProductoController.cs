@@ -167,7 +167,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cantidad);
         }
 
-        public ActionResult RemoveFromCart(int? id)
+        public ActionResult RemoveFromCart(int? id, int? cantidad)
         {
             if (id == null)
             {
@@ -179,6 +179,8 @@ namespace TiendaVirtualAlejandro.Controllers
                 if (session.Keys.Any(k => k.Id.Equals(id)))
                 {
                     session.Remove(session.Keys.Where(p => p.Id.Equals(id)).Single());
+                    db.Producto.Find(id).Cantidad += cantidad.Value;
+                    db.SaveChanges();
                 }
             }
             return RedirectToAction("MiCarrito", "Pedido");
