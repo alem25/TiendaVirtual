@@ -17,6 +17,7 @@ namespace TiendaVirtualAlejandro.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ModeloContainer db = new ModeloContainer();
 
         public AccountController()
         {
@@ -66,7 +67,7 @@ namespace TiendaVirtualAlejandro.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, CarritoCompra cc)
         {
             if (!ModelState.IsValid)
             {
@@ -79,6 +80,14 @@ namespace TiendaVirtualAlejandro.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (cc.Cliente != null && !String.IsNullOrEmpty(cc.Cliente.Email) && model.Email != cc.Cliente.Email)
+                        cc.Clear();
+
+                    if(cc.Cliente == null || cc.Cliente.Email != model.Email)
+                    {
+                        cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(model.Email));
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -147,7 +156,7 @@ namespace TiendaVirtualAlejandro.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, CarritoCompra cc)
         {
             if (ModelState.IsValid)
             {
@@ -155,6 +164,13 @@ namespace TiendaVirtualAlejandro.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    if (cc.Cliente != null && !String.IsNullOrEmpty(cc.Cliente.Email) && model.Email != cc.Cliente.Email)
+                        cc.Clear();
+
+                    if (cc.Cliente == null || cc.Cliente.Email != model.Email)
+                    {
+                        cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(model.Email));
+                    }
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771

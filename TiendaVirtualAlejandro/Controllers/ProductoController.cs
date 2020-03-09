@@ -127,17 +127,22 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Producto prod = db.Producto.Find(id);
+                int cantidadInventario = db.Producto.Find(id).Cantidad;
 
-                if(prod.Cantidad > 0)
+                if (cantidadInventario > 0)
                 {
+                    if (cc.Cliente == null && this.User.Identity.IsAuthenticated)
+                        cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(this.User.Identity.Name));
+
                     if (cc.Keys.Any(k => k.Id.Equals(id)))
                     {
-                        cc[cc.Keys.Where(p => p.Id.Equals(id)).Single()]++;
+                        int cantidadCarrito = cc[cc.Keys.Single(k => k.Id.Equals(id))];
+
+                        if (cantidadInventario > cantidadCarrito)
+                            cc[cc.Keys.Single(p => p.Id.Equals(id))]++;
                     }
                     else
                         cc.Add(db.Producto.Find(id), 1);
-                    prod.Cantidad--;
 
                     db.SaveChanges();
                 }
@@ -156,13 +161,12 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Producto prod = db.Producto.Find(id);
+                int cantidadInventario = cc.Keys.Single(k => k.Id.Equals(id)).Cantidad;
+                int cantidadCarrito = cc[cc.Keys.Single(k => k.Id.Equals(id))];
 
-                if (prod.Cantidad > 0)
+                if (cantidadCarrito < cantidadInventario)
                 {
                     cc[cc.Keys.Single(k => k.Id.Equals(id))]++;
-                    prod.Cantidad--;
-                    db.SaveChanges();
                 }
             }
             return RedirectToAction("MiCarrito", "Pedido");
@@ -176,14 +180,13 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Producto prod = db.Producto.Find(id);
+                Producto productoCarrito = cc.Keys.Single(k => k.Id.Equals(id));
+                int cantidadCarrito = cc[cc.Keys.Single(k => k.Id.Equals(id))];
 
-                if (cc[cc.Keys.Single(k => k.Id.Equals(id))] == 1)
-                    cc.Remove(cc.Keys.Single(k => k.Id.Equals(id)));
+                if (cantidadCarrito == 1)
+                    cc.Remove(productoCarrito);
                 else
                     cc[cc.Keys.Single(k => k.Id.Equals(id))]--;
-                prod.Cantidad++;
-                db.SaveChanges();
             }
             return RedirectToAction("MiCarrito", "Pedido");
         }
@@ -197,11 +200,11 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                if (cc.Keys.Any(k => k.Id.Equals(id)))
+                Producto productoCarrito = cc.Keys.Single(k => k.Id.Equals(id));
+
+                if (cc.ContainsKey(productoCarrito))
                 {
-                    cc.Remove(cc.Keys.Where(p => p.Id.Equals(id)).Single());
-                    db.Producto.Find(id).Cantidad += cantidad.Value;
-                    db.SaveChanges();
+                    cc.Remove(productoCarrito);
                 }
             }
             return RedirectToAction("MiCarrito", "Pedido");

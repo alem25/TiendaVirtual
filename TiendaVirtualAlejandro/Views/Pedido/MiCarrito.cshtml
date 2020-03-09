@@ -62,7 +62,7 @@
                         @(item.Key.Precio * item.Value) €
                     </td>
                     <td>
-                        @if (item.Key.Cantidad > 0)
+                        @if (item.Value < item.Key.Cantidad)
                         {
                             <img src="~/Content/Fotos/plus.png" style="max-width:25px;cursor:pointer" alt="Image"
                                  onclick="location.href='@Url.Action("AddOneMore", "Producto", new { id = item.Key.Id })'">
@@ -71,7 +71,7 @@
                              onclick="location.href='@Url.Action("RemoveOne", "Producto", new { id = item.Key.Id })'">
                     </td>
                     <td>
-                        @Html.ActionLink("Quitar todos", "RemoveFromCart", "Producto", new { id = item.Key.Id, cantidad = item.Value }, null)
+                        @Html.ActionLink("Quitar", "RemoveFromCart", "Producto", new { id = item.Key.Id, cantidad = item.Value }, null)
                     </td>
                 </tr>
             }
