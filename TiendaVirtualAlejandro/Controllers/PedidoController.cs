@@ -130,7 +130,12 @@ namespace TiendaVirtualAlejandro.Controllers
             Pedido pedido = db.Pedido.Create();
             pedido.Cliente = cc.Cliente;
             pedido.Stock = new List<Stock>();
-            cc.ForEach(k => pedido.Stock.Add(k));
+            cc.ForEach(s => pedido.Stock.Add(s));
+            cc.ForEach(s =>
+            {
+                db.Producto.Single(p => s.Producto.Id.Equals(p.Id)).Cantidad -= s.Cantidad;
+            });
+            cc.Clear();
             db.Pedido.Add(pedido);
             db.SaveChanges();
             return RedirectToAction("Index", pedido);
