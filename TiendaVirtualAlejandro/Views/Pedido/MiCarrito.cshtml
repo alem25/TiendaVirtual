@@ -19,13 +19,13 @@
                 @Html.Label("Producto")
             </th>
             <th>
-                @Html.LabelFor(i => Model.Keys.First().Nombre)
+                @Html.LabelFor(i => Model.First().Producto.Nombre)
             </th>
             <th>
                 @Html.Label("Cantidad en almacén")
             </th>
             <th>
-                @Html.LabelFor(i => Model.Keys.First().Precio)
+                @Html.LabelFor(i => Model.First().Producto.Precio)
             </th>
             <th>
                 @Html.Label("Cantidad a comprar")
@@ -44,34 +44,34 @@
             {
                 <tr>
                     <td>
-                        <img src="~/Content/Fotos/@item.Key.Foto" style="max-width: 64px;" />
+                        <img src="~/Content/Fotos/@item.Producto.Foto" style="max-width: 64px;" />
                     </td>
                     <td>
-                        @Html.ActionLink(item.Key.Nombre, "Details", "Producto", new { id = item.Key.Id }, null)
+                        @Html.ActionLink(item.Producto.Nombre, "Details", "Producto", new { id = item.Producto.Id }, null)
                     </td>
                     <td>
-                        @Html.DisplayFor(c => item.Key.Cantidad) Kg
+                        @Html.DisplayFor(c => item.Producto.Cantidad) Kg
                     </td>
                     <td>
-                        @Html.DisplayFor(i => item.Key.Precio) €/Kg
+                        @Html.DisplayFor(i => item.Producto.Precio) €/Kg
                     </td>
                     <td>
-                        @Html.DisplayFor(c => item.Value) Kg
+                        @Html.DisplayFor(c => item.Cantidad) Kg
                     </td>
                     <td>
-                        @(item.Key.Precio * item.Value) €
+                        @(item.Producto.Precio * item.Cantidad) €
                     </td>
                     <td>
-                        @if (item.Value < item.Key.Cantidad)
+                        @if (item.Cantidad < item.Producto.Cantidad)
                         {
                             <img src="~/Content/Fotos/plus.png" style="max-width:25px;cursor:pointer" alt="Image"
-                                 onclick="location.href='@Url.Action("AddOneMore", "Producto", new { id = item.Key.Id })'">
+                                 onclick="location.href='@Url.Action("AddOneMore", "Producto", new { id = item.Producto.Id })'">
                         }
                         <img src="~/Content/Fotos/minus.png" style="max-width:25px;cursor:pointer" alt="Image"
-                             onclick="location.href='@Url.Action("RemoveOne", "Producto", new { id = item.Key.Id })'">
+                             onclick="location.href='@Url.Action("RemoveOne", "Producto", new { id = item.Producto.Id })'">
                     </td>
                     <td>
-                        @Html.ActionLink("Quitar", "RemoveFromCart", "Producto", new { id = item.Key.Id, cantidad = item.Value }, null)
+                        @Html.ActionLink("Quitar", "RemoveFromCart", "Producto", new { id = item.Producto.Id }, null)
                     </td>
                 </tr>
             }
@@ -80,7 +80,7 @@
     @Html.Label("Total Carrito")
     @Html.DisplayFor(c => Model.Total) €
 </p>
-@if (this.User.Identity.IsAuthenticated && Model.Keys.Any())
+@if (this.User.Identity.IsAuthenticated && Model.Any())
 {
     @Html.ActionLink("Tramitar pedido", "Purchase", "Pedido", null, htmlAttributes: new { @class = "control-label col-2" })
 }

@@ -29,14 +29,14 @@
                 @Html.ActionLink("" + item.Id, "Details", new { id = item.Id })
             </td>
             <td>
-                @Html.Label("" + item.Producto.Count)
+                @Html.Label("" + item.Stock.Count)
             </td>
             <td>
                 @{
                     decimal total = 0.00m;
-                    foreach (var prod in item.Producto)
+                    foreach (var prod in item.Stock)
                     {
-                        total += prod.Precio * (decimal)prod.Cantidad;
+                        total += prod.Producto.Precio * (decimal)prod.Cantidad;
                     }
                     @Html.Label(""+total)
                 }

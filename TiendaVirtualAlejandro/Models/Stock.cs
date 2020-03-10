@@ -12,16 +12,12 @@ namespace TiendaVirtualAlejandro.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Producto
+    public partial class Stock
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public decimal Precio { get; set; }
-        public string Foto { get; set; }
-        public string Descripción { get; set; }
-        public Category Category { get; set; }
         public int Cantidad { get; set; }
     
-        public virtual Stock Stock { get; set; }
+        public virtual Producto Producto { get; set; }
+        public virtual Pedido Pedido { get; set; }
     }
 }

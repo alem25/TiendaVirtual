@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/07/2020 19:03:42
+-- Date Created: 03/10/2020 17:08:20
 -- Generated from EDMX file: D:\MiW-UPM\net\TiendaVirtualAlejandro\TiendaVirtualAlejandro\Models\Modelo.edmx
 -- --------------------------------------------------
 
@@ -17,12 +17,6 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_PedidoProducto_Pedido]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PedidoProducto] DROP CONSTRAINT [FK_PedidoProducto_Pedido];
-GO
-IF OBJECT_ID(N'[dbo].[FK_PedidoProducto_Producto]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PedidoProducto] DROP CONSTRAINT [FK_PedidoProducto_Producto];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ClientePedido]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Pedido] DROP CONSTRAINT [FK_ClientePedido];
 GO
@@ -34,14 +28,11 @@ GO
 IF OBJECT_ID(N'[dbo].[Cliente]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Cliente];
 GO
-IF OBJECT_ID(N'[dbo].[Producto]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Producto];
-GO
 IF OBJECT_ID(N'[dbo].[Pedido]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Pedido];
 GO
-IF OBJECT_ID(N'[dbo].[PedidoProducto]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PedidoProducto];
+IF OBJECT_ID(N'[dbo].[Producto]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Producto];
 GO
 
 -- --------------------------------------------------
@@ -63,7 +54,7 @@ CREATE TABLE [dbo].[Producto] (
     [Nombre] nvarchar(max)  NOT NULL,
     [Precio] decimal(18,2)  NOT NULL,
     [Foto] nvarchar(max)  NOT NULL,
-    [Descripción] nvarchar(max)  NOT NULL,
+    [Descripción] nvarchar(max)  NULL,
     [Category] int  NOT NULL,
     [Cantidad] int  NOT NULL
 );
@@ -76,10 +67,12 @@ CREATE TABLE [dbo].[Pedido] (
 );
 GO
 
--- Creating table 'PedidoProducto'
-CREATE TABLE [dbo].[PedidoProducto] (
-    [Pedido_Id] int  NOT NULL,
-    [Producto_Id] int  NOT NULL
+-- Creating table 'Stock'
+CREATE TABLE [dbo].[Stock] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Cantidad] int  NOT NULL,
+    [Producto_Id] int  NOT NULL,
+    [Pedido_Id] int  NOT NULL
 );
 GO
 
@@ -105,39 +98,15 @@ ADD CONSTRAINT [PK_Pedido]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Pedido_Id], [Producto_Id] in table 'PedidoProducto'
-ALTER TABLE [dbo].[PedidoProducto]
-ADD CONSTRAINT [PK_PedidoProducto]
-    PRIMARY KEY CLUSTERED ([Pedido_Id], [Producto_Id] ASC);
+-- Creating primary key on [Id] in table 'Stock'
+ALTER TABLE [dbo].[Stock]
+ADD CONSTRAINT [PK_Stock]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
-
--- Creating foreign key on [Pedido_Id] in table 'PedidoProducto'
-ALTER TABLE [dbo].[PedidoProducto]
-ADD CONSTRAINT [FK_PedidoProducto_Pedido]
-    FOREIGN KEY ([Pedido_Id])
-    REFERENCES [dbo].[Pedido]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Producto_Id] in table 'PedidoProducto'
-ALTER TABLE [dbo].[PedidoProducto]
-ADD CONSTRAINT [FK_PedidoProducto_Producto]
-    FOREIGN KEY ([Producto_Id])
-    REFERENCES [dbo].[Producto]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_PedidoProducto_Producto'
-CREATE INDEX [IX_FK_PedidoProducto_Producto]
-ON [dbo].[PedidoProducto]
-    ([Producto_Id]);
-GO
 
 -- Creating foreign key on [Cliente_Id] in table 'Pedido'
 ALTER TABLE [dbo].[Pedido]
@@ -152,6 +121,36 @@ GO
 CREATE INDEX [IX_FK_ClientePedido]
 ON [dbo].[Pedido]
     ([Cliente_Id]);
+GO
+
+-- Creating foreign key on [Producto_Id] in table 'Stock'
+ALTER TABLE [dbo].[Stock]
+ADD CONSTRAINT [FK_StockProducto]
+    FOREIGN KEY ([Producto_Id])
+    REFERENCES [dbo].[Producto]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_StockProducto'
+CREATE INDEX [IX_FK_StockProducto]
+ON [dbo].[Stock]
+    ([Producto_Id]);
+GO
+
+-- Creating foreign key on [Pedido_Id] in table 'Stock'
+ALTER TABLE [dbo].[Stock]
+ADD CONSTRAINT [FK_PedidoStock]
+    FOREIGN KEY ([Pedido_Id])
+    REFERENCES [dbo].[Pedido]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PedidoStock'
+CREATE INDEX [IX_FK_PedidoStock]
+ON [dbo].[Stock]
+    ([Pedido_Id]);
 GO
 
 -- --------------------------------------------------

@@ -28,5 +28,6 @@ namespace TiendaVirtualAlejandro.Models
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Pedido> Pedido { get; set; }
+        public virtual DbSet<Stock> Stock { get; set; }
     }
 }

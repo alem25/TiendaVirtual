@@ -17,7 +17,9 @@ namespace TiendaVirtualAlejandro.Controllers
         // GET: Pedido
         public ActionResult Index()
         {
-            return View(db.Pedido.ToList());
+            var ped = db.Pedido.ToList();
+            Stock stok = ped[0].Stock.ToList()[0];
+            return View(ped);
         }
 
         // GET: Pedido/Details/5
@@ -118,9 +120,9 @@ namespace TiendaVirtualAlejandro.Controllers
         public ActionResult MiCarrito(CarritoCompra cc)
         {
             var listProducts = db.Producto;
-            foreach(var key in cc.Keys.ToList())
+            foreach(var stock in cc)
             {
-                key.Cantidad = listProducts.Find(key.Id).Cantidad;
+                stock.Producto.Cantidad = listProducts.Find(stock.Producto.Id).Cantidad;
             }
             return View(cc);
         }
@@ -129,8 +131,8 @@ namespace TiendaVirtualAlejandro.Controllers
         {
             Pedido pedido = db.Pedido.Create();
             pedido.Cliente = cc.Cliente;
-            pedido.Producto = new List<Producto>();
-            cc.Keys.ToList().ForEach(k => pedido.Producto.Add(k));
+            pedido.Stock = new List<Stock>();
+            cc.ForEach(k => pedido.Stock.Add(k));
             db.Pedido.Add(pedido);
             db.SaveChanges();
             return RedirectToAction("Index", pedido);

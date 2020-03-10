@@ -127,24 +127,28 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                int cantidadInventario = db.Producto.Find(id).Cantidad;
+                Producto productoInventario = db.Producto.Find(id);
 
-                if (cantidadInventario > 0)
+                if (productoInventario.Cantidad > 0)
                 {
                     if (cc.Cliente == null && this.User.Identity.IsAuthenticated)
                         cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(this.User.Identity.Name));
 
-                    if (cc.Keys.Any(k => k.Id.Equals(id)))
+                    if (cc.Any(k => k.Producto.Id.Equals(id)))
                     {
-                        int cantidadCarrito = cc[cc.Keys.Single(k => k.Id.Equals(id))];
+                        int cantidadCarrito = cc.Single(k => k.Producto.Id.Equals(id)).Cantidad;
 
-                        if (cantidadInventario > cantidadCarrito)
-                            cc[cc.Keys.Single(p => p.Id.Equals(id))]++;
+                        if (productoInventario.Cantidad > cantidadCarrito)
+                            cc.Single(p => p.Producto.Id.Equals(id)).Cantidad++;
                     }
                     else
-                        cc.Add(db.Producto.Find(id), 1);
-
-                    db.SaveChanges();
+                    {
+                        Stock newStock = db.Stock.Create();
+                        newStock.Cantidad = 1;
+                        newStock.Producto = productoInventario;
+                        cc.Add(newStock);
+                        db.SaveChanges();
+                    }
                 }
                 else
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -161,12 +165,12 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                int cantidadInventario = cc.Keys.Single(k => k.Id.Equals(id)).Cantidad;
-                int cantidadCarrito = cc[cc.Keys.Single(k => k.Id.Equals(id))];
+                int cantidadInventario = cc.Single(k => k.Producto.Id.Equals(id)).Producto.Cantidad;
+                int cantidadCarrito = cc.Single(k => k.Producto.Id.Equals(id)).Cantidad;
 
                 if (cantidadCarrito < cantidadInventario)
                 {
-                    cc[cc.Keys.Single(k => k.Id.Equals(id))]++;
+                    cc.Single(k => k.Producto.Id.Equals(id)).Cantidad++;
                 }
             }
             return RedirectToAction("MiCarrito", "Pedido");
@@ -180,19 +184,18 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Producto productoCarrito = cc.Keys.Single(k => k.Id.Equals(id));
-                int cantidadCarrito = cc[cc.Keys.Single(k => k.Id.Equals(id))];
+                Stock stockCarrito = cc.Single(k => k.Producto.Id.Equals(id));
 
-                if (cantidadCarrito == 1)
-                    cc.Remove(productoCarrito);
+                if (stockCarrito.Cantidad == 1)
+                    cc.Remove(stockCarrito);
                 else
-                    cc[cc.Keys.Single(k => k.Id.Equals(id))]--;
+                    cc.Single(k => k.Producto.Id.Equals(id)).Cantidad--;
             }
             return RedirectToAction("MiCarrito", "Pedido");
         }
 
 
-        public ActionResult RemoveFromCart(CarritoCompra cc, int? id, int? cantidad)
+        public ActionResult RemoveFromCart(CarritoCompra cc, int? id)
         {
             if (id == null)
             {
@@ -200,12 +203,10 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Producto productoCarrito = cc.Keys.Single(k => k.Id.Equals(id));
+                Stock stockCarrito = cc.Single(k => k.Producto.Id.Equals(id));
 
-                if (cc.ContainsKey(productoCarrito))
-                {
-                    cc.Remove(productoCarrito);
-                }
+                if (cc.Contains(stockCarrito))
+                    cc.Remove(stockCarrito);
             }
             return RedirectToAction("MiCarrito", "Pedido");
         }

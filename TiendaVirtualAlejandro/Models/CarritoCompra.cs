@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace TiendaVirtualAlejandro.Models
 {
     //[ModelBinder(typeof(CarritoCompraModelBinder))]
-    public class CarritoCompra : Dictionary<Producto, int>
+    public class CarritoCompra : List<Stock>
     {
         public Cliente Cliente { get; set; }
 
@@ -33,9 +33,9 @@ namespace TiendaVirtualAlejandro.Models
                 cc = (CarritoCompra)controllerContext.HttpContext.Session[Ksc];
                 cc.Total = 0;
                 
-                for (int i = 0; i < cc.Keys.Count; i++)
+                for (int i = 0; i < cc.Count; i++)
                 {
-                    cc.Total += cc.Keys.ToList()[i].Precio * cc[cc.Keys.ToList()[i]];
+                    cc.Total += cc[i].Producto.Precio * cc[i].Cantidad;
                 }
             }
 
