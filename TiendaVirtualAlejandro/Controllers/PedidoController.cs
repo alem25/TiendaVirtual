@@ -17,9 +17,7 @@ namespace TiendaVirtualAlejandro.Controllers
         // GET: Pedido
         public ActionResult Index()
         {
-            var ped = db.Pedido.ToList();
-            Stock stok = ped[0].Stock.ToList()[0];
-            return View(ped);
+            return View(db.Pedido);
         }
 
         // GET: Pedido/Details/5

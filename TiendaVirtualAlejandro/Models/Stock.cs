@@ -14,10 +14,17 @@ namespace TiendaVirtualAlejandro.Models
     
     public partial class Stock
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Stock()
+        {
+            this.Pedido = new HashSet<Pedido>();
+        }
+    
         public int Id { get; set; }
         public int Cantidad { get; set; }
     
         public virtual Producto Producto { get; set; }
-        public virtual Pedido Pedido { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pedido> Pedido { get; set; }
     }
 }

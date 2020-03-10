@@ -21,7 +21,5 @@ namespace TiendaVirtualAlejandro.Models
         public string Descripción { get; set; }
         public Category Category { get; set; }
         public int Cantidad { get; set; }
-    
-        public virtual Stock Stock { get; set; }
     }
 }
