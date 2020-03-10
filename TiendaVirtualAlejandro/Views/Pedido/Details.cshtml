@@ -13,6 +13,54 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Producto")
+            </th>
+            <th>
+                @Html.LabelFor(i => Model.Producto.First().Nombre)
+            </th>
+            <th>
+                @Html.LabelFor(i => Model.Producto.First().Precio)
+            </th>
+            <th>
+                @Html.Label("Cantidad comprada")
+            </th>
+            <th>
+                @Html.Label("Subtotal")
+            </th>
+            <th>
+            </th>
+        </tr>
+        @if (Model != null && Model.Producto.Count > 0)
+        {
+            foreach (var item in Model.Producto)
+            {
+                <tr>
+                    <td>
+                        <img src="~/Content/Fotos/@item.Foto" style="max-width: 64px;" />
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Nombre, "Details", "Producto", new { id = item.Id }, null)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(i => item.Precio) €/Kg
+                    </td>
+                    <td>
+                        @Html.DisplayFor(c => item.Cantidad) Kg <!--value-->
+                    </td>
+                    <td>
+                        @(item.Precio * item.Cantidad) € <!--value-->
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    @Html.Label("Total Pedido")
+</p>
+<p>
     @Html.ActionLink("Back to List", "Index")
 </p>

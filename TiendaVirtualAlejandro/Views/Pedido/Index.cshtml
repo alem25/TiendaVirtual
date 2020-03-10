@@ -4,24 +4,47 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Mis Pedidos</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        <th></th>
+        <th>
+            @Html.Label("Identificador del pedido")
+        </th>
+        <th>
+            @Html.Label("Cantidad de productos comprados")
+        </th>
+        <th>
+            @Html.Label("Precio total del Pedido")
+        </th>
+        <th>
+            @Html.Label("Detalles")
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("" + item.Id, "Details", new { id = item.Id })
+            </td>
+            <td>
+                @Html.Label("" + item.Producto.Count)
+            </td>
+            <td>
+                @{
+                    decimal total = 0.00m;
+                    foreach (var prod in item.Producto)
+                    {
+                        total += prod.Precio * (decimal)prod.Cantidad;
+                    }
+                    @Html.Label(""+total)
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

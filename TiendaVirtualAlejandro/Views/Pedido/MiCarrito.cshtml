@@ -80,3 +80,7 @@
     @Html.Label("Total Carrito")
     @Html.DisplayFor(c => Model.Total) €
 </p>
+@if (this.User.Identity.IsAuthenticated && Model.Keys.Any())
+{
+    @Html.ActionLink("Tramitar pedido", "Purchase", "Pedido", null, htmlAttributes: new { @class = "control-label col-2" })
+}

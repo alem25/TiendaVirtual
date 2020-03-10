@@ -125,6 +125,17 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cc);
         }
 
+        public ActionResult Purchase(CarritoCompra cc)
+        {
+            Pedido pedido = db.Pedido.Create();
+            pedido.Cliente = cc.Cliente;
+            pedido.Producto = new List<Producto>();
+            cc.Keys.ToList().ForEach(k => pedido.Producto.Add(k));
+            db.Pedido.Add(pedido);
+            db.SaveChanges();
+            return RedirectToAction("Index", pedido);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
