@@ -18,9 +18,9 @@ namespace TiendaVirtualAlejandro.Controllers
         public ActionResult Index(Category? category)
         {
             if(category == null)
-                return View(db.Producto.ToList());
+                return View(db.ProductosAlmacen.ToList());
             else
-                return View(db.Producto.Where(p => p.Category.ToString().Equals(category.ToString())).ToList());
+                return View(db.ProductosAlmacen.Where(p => p.Categoria.ToString().Equals(category.ToString())).ToList());
         }
 
         // GET: Producto/Details/5
@@ -30,7 +30,7 @@ namespace TiendaVirtualAlejandro.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Producto.Find(id);
+            ProductoAlmacen producto = db.ProductosAlmacen.Find(id);
             if (producto == null)
             {
                 return HttpNotFound();
@@ -49,11 +49,11 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category,Cantidad")] Producto producto)
+        public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Foto,Descripcion,Categoria,CantidadAlmacen,CantidadCarrito")] ProductoAlmacen producto)
         {            
             if (ModelState.IsValid)
             {
-                db.Producto.Add(producto);
+                db.ProductosAlmacen.Add(producto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -68,7 +68,7 @@ namespace TiendaVirtualAlejandro.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Producto.Find(id);
+            ProductoAlmacen producto = db.ProductosAlmacen.Find(id);
             if (producto == null)
             {
                 return HttpNotFound();
@@ -81,7 +81,7 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Foto,Descripción,Category,Cantidad")] Producto producto)
+        public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Foto,Descripcion,Categoria,CantidadAlmacen,CantidadCarrito")] ProductoAlmacen producto)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace TiendaVirtualAlejandro.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = db.Producto.Find(id);
+            ProductoAlmacen producto = db.ProductosAlmacen.Find(id);
             if (producto == null)
             {
                 return HttpNotFound();
@@ -112,9 +112,9 @@ namespace TiendaVirtualAlejandro.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Producto producto = db.Producto.Find(id);
+            ProductoAlmacen producto = db.ProductosAlmacen.Find(id);
 
-            db.Producto.Remove(producto);
+            db.ProductosAlmacen.Remove(producto);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -127,26 +127,22 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Producto productoInventario = db.Producto.Find(id);
+                ProductoAlmacen productoAlmacen = db.ProductosAlmacen.Find(id);
 
-                if (productoInventario.Cantidad > 0)
+                if (productoAlmacen.CantidadAlmacen > 0)
                 {
                     if (cc.Cliente == null && this.User.Identity.IsAuthenticated)
                         cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(this.User.Identity.Name));
 
-                    if (cc.Any(k => k.Producto.Id.Equals(id)))
+                    if (cc.Any(k => k.Id.Equals(id)))
                     {
-                        int cantidadCarrito = cc.Single(k => k.Producto.Id.Equals(id)).Cantidad;
-
-                        if (productoInventario.Cantidad > cantidadCarrito)
-                            cc.Single(p => p.Producto.Id.Equals(id)).Cantidad++;
+                        if (productoAlmacen.CantidadAlmacen > cc.Single(k => k.Id.Equals(id)).CantidadCarrito)
+                            cc.Single(p => p.Id.Equals(id)).CantidadCarrito++;
                     }
                     else
                     {
-                        Stock newStock = db.Stock.Create();
-                        newStock.Cantidad = 1;
-                        newStock.Producto = productoInventario;
-                        cc.Add(newStock);
+                        productoAlmacen.CantidadCarrito = 1;
+                        cc.Add(productoAlmacen);
                         db.SaveChanges();
                     }
                 }
@@ -165,12 +161,11 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                int cantidadInventario = cc.Single(k => k.Producto.Id.Equals(id)).Producto.Cantidad;
-                int cantidadCarrito = cc.Single(k => k.Producto.Id.Equals(id)).Cantidad;
+                ProductoAlmacen producto = cc.Single(k => k.Id.Equals(id));
 
-                if (cantidadCarrito < cantidadInventario)
+                if (producto.CantidadCarrito < producto.CantidadAlmacen)
                 {
-                    cc.Single(k => k.Producto.Id.Equals(id)).Cantidad++;
+                    cc.Single(k => k.Id.Equals(id)).CantidadCarrito++;
                 }
             }
             return RedirectToAction("MiCarrito", "Pedido");
@@ -184,12 +179,12 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Stock stockCarrito = cc.Single(k => k.Producto.Id.Equals(id));
+                ProductoAlmacen producto = cc.Single(k => k.Id.Equals(id));
 
-                if (stockCarrito.Cantidad == 1)
-                    cc.Remove(stockCarrito);
+                if (producto.CantidadCarrito == 1)
+                    cc.Remove(producto);
                 else
-                    cc.Single(k => k.Producto.Id.Equals(id)).Cantidad--;
+                    cc.Single(k => k.Id.Equals(id)).CantidadCarrito--;
             }
             return RedirectToAction("MiCarrito", "Pedido");
         }
@@ -203,10 +198,10 @@ namespace TiendaVirtualAlejandro.Controllers
             }
             else
             {
-                Stock stockCarrito = cc.Single(k => k.Producto.Id.Equals(id));
+                ProductoAlmacen producto = cc.Single(k => k.Id.Equals(id));
 
-                if (cc.Contains(stockCarrito))
-                    cc.Remove(stockCarrito);
+                if (cc.Contains(producto))
+                    cc.Remove(producto);
             }
             return RedirectToAction("MiCarrito", "Pedido");
         }

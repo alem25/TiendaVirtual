@@ -1,4 +1,4 @@
-﻿@model TiendaVirtualAlejandro.Models.Producto
+﻿@model TiendaVirtualAlejandro.Models.ProductoAlmacen
 
 @{
     ViewBag.Title = "Details";
@@ -19,13 +19,13 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Cantidad)
+            @Html.DisplayNameFor(model => model.CantidadAlmacen)
         </dt>
 
         <dd>
-            @if (Model.Cantidad > 0)
+            @if (Model.CantidadAlmacen > 0)
             {
-                @Html.DisplayFor(model => model.Cantidad)
+                @Html.DisplayFor(model => model.CantidadAlmacen)
             }
             else
             {
@@ -49,17 +49,17 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Descripción)
+            @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Descripción)
+            @Html.DisplayFor(model => model.Descripcion)
         </dd>
 
     </dl>
 </div>
 <p>
-    @if (Model.Cantidad > 0)
+    @if (Model.CantidadAlmacen > 0)
     {
         @Html.ActionLink("Add To Cart", "AddToCart", new { id = Model.Id })
     } |

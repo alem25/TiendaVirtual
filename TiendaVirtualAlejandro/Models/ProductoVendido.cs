@@ -12,19 +12,22 @@ namespace TiendaVirtualAlejandro.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Stock
+    public partial class ProductoVendido
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Stock()
+        public ProductoVendido()
         {
-            this.Pedido = new HashSet<Pedido>();
+            this.Cantidad = 0;
         }
     
         public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Foto { get; set; }
+        public decimal Precio { get; set; }
         public int Cantidad { get; set; }
+        public Category Categoria { get; set; }
     
-        public virtual Producto Producto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pedido> Pedido { get; set; }
+        public virtual Pedido Pedido { get; set; }
     }
 }

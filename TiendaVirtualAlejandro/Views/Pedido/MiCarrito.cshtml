@@ -19,13 +19,13 @@
                 @Html.Label("Producto")
             </th>
             <th>
-                @Html.LabelFor(i => Model.First().Producto.Nombre)
+                @Html.LabelFor(i => Model.First().Nombre)
             </th>
             <th>
                 @Html.Label("Cantidad en almacén")
             </th>
             <th>
-                @Html.LabelFor(i => Model.First().Producto.Precio)
+                @Html.LabelFor(i => Model.First().Precio)
             </th>
             <th>
                 @Html.Label("Cantidad a comprar")
@@ -44,34 +44,34 @@
             {
                 <tr>
                     <td>
-                        <img src="~/Content/Fotos/@item.Producto.Foto" style="max-width: 64px;" />
+                        <img src="~/Content/Fotos/@item.Foto" style="max-width: 64px;" />
                     </td>
                     <td>
-                        @Html.ActionLink(item.Producto.Nombre, "Details", "Producto", new { id = item.Producto.Id }, null)
+                        @Html.ActionLink(item.Nombre, "Details", "Producto", new { id = item.Id }, null)
                     </td>
                     <td>
-                        @Html.DisplayFor(c => item.Producto.Cantidad) Kg
+                        @Html.DisplayFor(c => item.CantidadAlmacen) Kg
                     </td>
                     <td>
-                        @Html.DisplayFor(i => item.Producto.Precio) €/Kg
+                        @Html.DisplayFor(i => item.Precio) €/Kg
                     </td>
                     <td>
-                        @Html.DisplayFor(c => item.Cantidad) Kg
+                        @Html.DisplayFor(c => item.CantidadCarrito) Kg
                     </td>
                     <td>
-                        @(item.Producto.Precio * item.Cantidad) €
+                        @(item.Precio * item.CantidadCarrito) €
                     </td>
                     <td>
-                        @if (item.Cantidad < item.Producto.Cantidad)
+                        @if (item.CantidadCarrito < item.CantidadAlmacen)
                         {
                             <img src="~/Content/Fotos/plus.png" style="max-width:25px;cursor:pointer" alt="Image"
-                                 onclick="location.href='@Url.Action("AddOneMore", "Producto", new { id = item.Producto.Id })'">
+                                 onclick="location.href='@Url.Action("AddOneMore", "Producto", new { id = item.Id })'">
                         }
                         <img src="~/Content/Fotos/minus.png" style="max-width:25px;cursor:pointer" alt="Image"
-                             onclick="location.href='@Url.Action("RemoveOne", "Producto", new { id = item.Producto.Id })'">
+                             onclick="location.href='@Url.Action("RemoveOne", "Producto", new { id = item.Id })'">
                     </td>
                     <td>
-                        @Html.ActionLink("Quitar", "RemoveFromCart", "Producto", new { id = item.Producto.Id }, null)
+                        @Html.ActionLink("Quitar", "RemoveFromCart", "Producto", new { id = item.Id }, null)
                     </td>
                 </tr>
             }

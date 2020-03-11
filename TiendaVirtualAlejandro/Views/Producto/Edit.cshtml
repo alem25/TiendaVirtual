@@ -1,4 +1,4 @@
-﻿@model TiendaVirtualAlejandro.Models.Producto
+﻿@model TiendaVirtualAlejandro.Models.ProductoAlmacen
 
 @{
     ViewBag.Title = "Edit";
@@ -26,10 +26,10 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CantidadAlmacen, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.CantidadAlmacen, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CantidadAlmacen, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -50,18 +50,18 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Descripción, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Descripción, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Descripción, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EnumDropDownListFor(model => model.Category, "---", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            @Html.EnumDropDownListFor(model => model.Categoria, "---", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
         </div>
     </div>
 

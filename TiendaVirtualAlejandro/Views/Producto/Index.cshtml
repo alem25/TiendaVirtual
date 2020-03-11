@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TiendaVirtualAlejandro.Models.Producto>
+﻿@model IEnumerable<TiendaVirtualAlejandro.Models.ProductoAlmacen>
 
 @{
     ViewBag.Title = "Index";
@@ -20,13 +20,13 @@
         <th>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Descripción)
+            @Html.DisplayNameFor(model => model.Descripcion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Category)
+            @Html.DisplayNameFor(model => model.Categoria)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Cantidad)
+            @Html.DisplayNameFor(model => model.CantidadAlmacen)
         </th>
         <th></th>
     </tr>
@@ -43,15 +43,15 @@
         <img src="~/Content/Fotos/@item.Foto" style="max-width: 100px;" />
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Descripción)
+        @Html.DisplayFor(modelItem => item.Descripcion)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Category)
+        @Html.DisplayFor(modelItem => item.Categoria)
     </td>
     <td>
-        @if (item.Cantidad > 0)
+        @if (item.CantidadAlmacen > 0)
         {
-            @Html.DisplayFor(modelItem => item.Cantidad);
+            @Html.DisplayFor(modelItem => item.CantidadAlmacen);
         }
         else
         {
@@ -59,7 +59,7 @@
         }
     </td>
     <td>
-        @if (item.Cantidad > 0)
+        @if (item.CantidadAlmacen > 0)
         {
             @Html.ActionLink("Add To Cart", "AddToCart", new { id = item.Id }, new { htmlAttributes = new { @class = "form-control" } })
         } |

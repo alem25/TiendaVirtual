@@ -14,9 +14,18 @@ namespace TiendaVirtualAlejandro.Models
     
     public partial class Cliente
     {
-        public int Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Cliente()
+        {
+            this.Pedidos = new HashSet<Pedido>();
+        }
+    
+        public int ClienteId { get; set; }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
         public string Email { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pedido> Pedidos { get; set; }
     }
 }

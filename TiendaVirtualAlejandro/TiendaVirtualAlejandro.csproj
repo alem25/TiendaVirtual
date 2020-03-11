@@ -219,10 +219,10 @@
     <Compile Include="Models\Pedido.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Producto.cs">
+    <Compile Include="Models\ProductoAlmacen.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Stock.cs">
+    <Compile Include="Models\ProductoVendido.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

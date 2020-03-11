@@ -117,27 +117,39 @@ namespace TiendaVirtualAlejandro.Controllers
 
         public ActionResult MiCarrito(CarritoCompra cc)
         {
-            var listProducts = db.Producto;
-            foreach(var stock in cc)
+            var listProducts = db.ProductosAlmacen;
+            foreach(var producto in cc)
             {
-                stock.Producto.Cantidad = listProducts.Find(stock.Producto.Id).Cantidad;
+                producto.CantidadAlmacen = listProducts.Find(producto.Id).CantidadAlmacen;
             }
             return View(cc);
         }
 
         public ActionResult Purchase(CarritoCompra cc)
         {
-            Pedido pedido = db.Pedido.Create();
-            pedido.Cliente = cc.Cliente;
-            pedido.Stock = new List<Stock>();
-            cc.ForEach(s => pedido.Stock.Add(s));
-            cc.ForEach(s =>
+            Pedido pedido = new Pedido()
             {
-                db.Producto.Single(p => s.Producto.Id.Equals(p.Id)).Cantidad -= s.Cantidad;
+                Cliente = cc.Cliente,
+                ProductoVendido = new List<ProductoVendido>(),
+            };
+            ProductoVendido productoVendido;
+            cc.ForEach(productoAlmacen =>
+            {
+                productoVendido = new ProductoVendido()
+                {
+                    Cantidad = productoAlmacen.CantidadCarrito,
+                    Nombre = productoAlmacen.Nombre,
+                    Categoria = productoAlmacen.Categoria,
+                    Descripcion = productoAlmacen.Descripcion,
+                    Foto = productoAlmacen.Foto,
+                    Precio = productoAlmacen.Precio,
+                };
+                db.ProductosVendidos.Add(productoVendido);
+                pedido.ProductoVendido.Add(productoVendido);
+                db.ProductosAlmacen.Find(productoAlmacen.Id).CantidadAlmacen -= productoAlmacen.CantidadCarrito;
             });
-            cc.Clear();
-            db.Pedido.Add(pedido);
             db.SaveChanges();
+            cc.Clear();
             return RedirectToAction("Index", pedido);
         }
 
