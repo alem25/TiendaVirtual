@@ -23,13 +23,13 @@
                     @Html.Label("Producto")
                 </th>
                 <th>
-                    @Html.LabelFor(i => Model.First().Producto.Nombre)
+                    @Html.LabelFor(i => Model.First().Nombre)
                 </th>
                 <th>
-                    @Html.LabelFor(i => Model.First().Producto.Precio)
+                    @Html.LabelFor(i => Model.First().Precio)
                 </th>
                 <th>
-                    @Html.LabelFor(i => Model.First().Producto.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(i => Model.First().CantidadCarrito, htmlAttributes: new { @class = "control-label col-md-2" })
                 </th>
             </tr>
             @if (Model != null && Model.Count > 0)
@@ -38,16 +38,16 @@
                 {
                     <tr>
                         <td>
-                            <img src="~/Content/Fotos/@Model[i].Producto.Foto" style="width:50px;height:50px;" />
+                            <img src="~/Content/Fotos/@Model[i].Foto" style="width:50px;height:50px;" />
                         </td>
                         <td>
-                            @Html.DisplayFor(a => Model[i].Producto.Nombre)
+                            @Html.DisplayFor(a => Model[i].Nombre)
                         </td>
                         <td>
-                            @Html.DisplayFor(a => Model[i].Producto.Precio)
+                            @Html.DisplayFor(a => Model[i].Precio)
                         </td>
                         <td>
-                            @Html.EditorFor(a => Model[i].Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(a => Model[i].CantidadCarrito, new { htmlAttributes = new { @class = "form-control" } })
                         </td>
                     </tr>
                 }

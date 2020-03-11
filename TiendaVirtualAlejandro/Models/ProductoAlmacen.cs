@@ -17,6 +17,8 @@ namespace TiendaVirtualAlejandro.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProductoAlmacen()
         {
+            this.Precio = 0m;
+            this.CantidadAlmacen = 0;
             this.CantidadCarrito = 0;
         }
     

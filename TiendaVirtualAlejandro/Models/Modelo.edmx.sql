@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/11/2020 16:30:21
+-- Date Created: 03/11/2020 18:08:53
 -- Generated from EDMX file: D:\MiW-UPM\net\TiendaVirtualAlejandro\TiendaVirtualAlejandro\Models\Modelo.edmx
 -- --------------------------------------------------
 
@@ -47,17 +47,16 @@ GO
 
 -- Creating table 'Cliente'
 CREATE TABLE [dbo].[Cliente] (
-    [ClienteId] int IDENTITY(1,1) NOT NULL,
-    [Nombre] nvarchar(max)  NOT NULL,
-    [Apellidos] nvarchar(max)  NOT NULL,
-    [Email] nvarchar(max)  NOT NULL
+    [EmailId] nvarchar(50)  NOT NULL,
+    [Nombre] nvarchar(max)  NULL,
+    [Apellidos] nvarchar(max)  NULL
 );
 GO
 
 -- Creating table 'Pedido'
 CREATE TABLE [dbo].[Pedido] (
     [PedidoId] int IDENTITY(1,1) NOT NULL,
-    [Cliente_ClienteId] int  NOT NULL
+    [EmailCliente_EmailId] nvarchar(50)  NOT NULL
 );
 GO
 
@@ -67,7 +66,7 @@ CREATE TABLE [dbo].[ProductosVendidos] (
     [Nombre] nvarchar(max)  NOT NULL,
     [Descripcion] nvarchar(max)  NULL,
     [Foto] nvarchar(max)  NOT NULL,
-    [Precio] decimal(18,0)  NOT NULL,
+    [Precio] decimal(18,2)  NOT NULL,
     [Cantidad] int  NOT NULL,
     [Categoria] int  NOT NULL,
     [Pedido_PedidoId] int  NOT NULL
@@ -80,7 +79,7 @@ CREATE TABLE [dbo].[ProductosAlmacen] (
     [Nombre] nvarchar(max)  NOT NULL,
     [Descripcion] nvarchar(max)  NULL,
     [Foto] nvarchar(max)  NOT NULL,
-    [Precio] decimal(18,0)  NOT NULL,
+    [Precio] decimal(18,2)  NOT NULL,
     [CantidadAlmacen] int  NOT NULL,
     [CantidadCarrito] int  NOT NULL,
     [Categoria] int  NOT NULL
@@ -91,10 +90,10 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [ClienteId] in table 'Cliente'
+-- Creating primary key on [EmailId] in table 'Cliente'
 ALTER TABLE [dbo].[Cliente]
 ADD CONSTRAINT [PK_Cliente]
-    PRIMARY KEY CLUSTERED ([ClienteId] ASC);
+    PRIMARY KEY CLUSTERED ([EmailId] ASC);
 GO
 
 -- Creating primary key on [PedidoId] in table 'Pedido'
@@ -119,19 +118,19 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [Cliente_ClienteId] in table 'Pedido'
+-- Creating foreign key on [EmailCliente_EmailId] in table 'Pedido'
 ALTER TABLE [dbo].[Pedido]
 ADD CONSTRAINT [FK_ClientePedido]
-    FOREIGN KEY ([Cliente_ClienteId])
+    FOREIGN KEY ([EmailCliente_EmailId])
     REFERENCES [dbo].[Cliente]
-        ([ClienteId])
+        ([EmailId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ClientePedido'
 CREATE INDEX [IX_FK_ClientePedido]
 ON [dbo].[Pedido]
-    ([Cliente_ClienteId]);
+    ([EmailCliente_EmailId]);
 GO
 
 -- Creating foreign key on [Pedido_PedidoId] in table 'ProductosVendidos'

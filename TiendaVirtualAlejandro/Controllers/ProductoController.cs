@@ -131,9 +131,6 @@ namespace TiendaVirtualAlejandro.Controllers
 
                 if (productoAlmacen.CantidadAlmacen > 0)
                 {
-                    if (cc.Cliente == null && this.User.Identity.IsAuthenticated)
-                        cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(this.User.Identity.Name));
-
                     if (cc.Any(k => k.Id.Equals(id)))
                     {
                         if (productoAlmacen.CantidadAlmacen > cc.Single(k => k.Id.Equals(id)).CantidadCarrito)

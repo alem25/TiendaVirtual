@@ -21,19 +21,18 @@
   </EntityContainer>
   <EntityType Name="Cliente">
     <Key>
-      <PropertyRef Name="ClienteId" />
+      <PropertyRef Name="EmailId" />
     </Key>
-    <Property Name="ClienteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Apellidos" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EmailId" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Apellidos" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Pedido">
     <Key>
       <PropertyRef Name="PedidoId" />
     </Key>
     <Property Name="PedidoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Cliente_ClienteId" Type="int" Nullable="false" />
+    <Property Name="EmailCliente_EmailId" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="ProductosVendidos">
     <Key>
@@ -43,7 +42,7 @@
     <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Foto" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Precio" Type="decimal" Nullable="false" />
+    <Property Name="Precio" Type="decimal" Nullable="false" DefaultValue="0" Scale="2" />
     <Property Name="Cantidad" Type="int" Nullable="false" DefaultValue="0" />
     <Property Name="Categoria" Type="int" Nullable="false" />
     <Property Name="Pedido_PedidoId" Type="int" Nullable="false" />
@@ -56,8 +55,8 @@
     <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Foto" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Precio" Type="decimal" Nullable="false" />
-    <Property Name="CantidadAlmacen" Type="int" Nullable="false" />
+    <Property Name="Precio" Type="decimal" Nullable="false" DefaultValue="0" Scale="2" />
+    <Property Name="CantidadAlmacen" Type="int" Nullable="false" DefaultValue="0" />
     <Property Name="CantidadCarrito" Type="int" Nullable="false" DefaultValue="0" />
     <Property Name="Categoria" Type="int" Nullable="false" />
   </EntityType>
@@ -66,10 +65,10 @@
     <End Role="Pedido" Type="Modelo.Store.Pedido" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Cliente">
-        <PropertyRef Name="ClienteId" />
+        <PropertyRef Name="EmailId" />
       </Principal>
       <Dependent Role="Pedido">
-        <PropertyRef Name="Cliente_ClienteId" />
+        <PropertyRef Name="EmailCliente_EmailId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -105,12 +104,11 @@
           </EntityContainer>
         <EntityType Name="Cliente">
           <Key>
-            <PropertyRef Name="ClienteId" />
+            <PropertyRef Name="EmailId" />
           </Key>
-          <Property Name="ClienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="EmailId" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" />
+          <Property Name="Nombre" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Apellidos" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Pedidos" Relationship="Modelo.ClientePedido" FromRole="Cliente" ToRole="Pedido" />
         </EntityType>
         <EntityType Name="Pedido">
@@ -118,8 +116,8 @@
             <PropertyRef Name="PedidoId" />
           </Key>
           <Property Name="PedidoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Cliente" Relationship="Modelo.ClientePedido" FromRole="Pedido" ToRole="Cliente" />
-          <NavigationProperty Name="ProductoVendido" Relationship="Modelo.PedidoProductoVendido" FromRole="Pedido" ToRole="ProductoVendido" />
+          <NavigationProperty Name="EmailCliente" Relationship="Modelo.ClientePedido" FromRole="Pedido" ToRole="Cliente" />
+          <NavigationProperty Name="ProductosVendidos" Relationship="Modelo.PedidoProductoVendido" FromRole="Pedido" ToRole="ProductoVendido" />
         </EntityType>
         <Association Name="ClientePedido">
           <End Type="Modelo.Cliente" Role="Cliente" Multiplicity="1" />
@@ -141,7 +139,7 @@
           <Property Name="Nombre" Type="String" Nullable="false" />
           <Property Name="Descripcion" Type="String" Nullable="true" />
           <Property Name="Foto" Type="String" Nullable="false" />
-          <Property Name="Precio" Type="Decimal" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Scale="2" DefaultValue="0" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="Categoria" Type="Modelo.Category" Nullable="false" />
           <NavigationProperty Name="Pedido" Relationship="Modelo.PedidoProductoVendido" FromRole="ProductoVendido" ToRole="Pedido" />
@@ -154,8 +152,8 @@
           <Property Name="Nombre" Type="String" Nullable="false" />
           <Property Name="Descripcion" Type="String" Nullable="true" />
           <Property Name="Foto" Type="String" Nullable="false" />
-          <Property Name="Precio" Type="Decimal" Nullable="false" />
-          <Property Name="CantidadAlmacen" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Scale="2" DefaultValue="0" />
+          <Property Name="CantidadAlmacen" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="CantidadCarrito" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="Categoria" Type="Modelo.Category" Nullable="false" />
         </EntityType>
@@ -172,10 +170,9 @@
     <EntitySetMapping Name="Cliente">
       <EntityTypeMapping TypeName="IsTypeOf(Modelo.Cliente)">
         <MappingFragment StoreEntitySet="Cliente">
-          <ScalarProperty Name="ClienteId" ColumnName="ClienteId" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -215,7 +212,7 @@
     </EntitySetMapping>
     <AssociationSetMapping Name="ClientePedido" TypeName="Modelo.ClientePedido" StoreEntitySet="Pedido">
       <EndProperty Name="Cliente">
-        <ScalarProperty Name="ClienteId" ColumnName="Cliente_ClienteId" />
+        <ScalarProperty Name="EmailId" ColumnName="EmailCliente_EmailId" />
       </EndProperty>
       <EndProperty Name="Pedido">
         <ScalarProperty Name="PedidoId" ColumnName="PedidoId" />

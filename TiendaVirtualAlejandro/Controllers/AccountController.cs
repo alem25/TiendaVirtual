@@ -80,12 +80,15 @@ namespace TiendaVirtualAlejandro.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (cc.Cliente != null && !String.IsNullOrEmpty(cc.Cliente.Email) && model.Email != cc.Cliente.Email)
+                    if (cc.Cliente != null && !String.IsNullOrEmpty(cc.Cliente.EmailId) && model.Email != cc.Cliente.EmailId)
                         cc.Clear();
-
-                    if(cc.Cliente == null || cc.Cliente.Email != model.Email)
+                    if (db.Cliente.SingleOrDefault(s => s.EmailId.Equals(model.Email)) is Cliente cliente)
+                        cc.Cliente = cliente;
+                    else
                     {
-                        cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(model.Email));
+                        db.Cliente.Add(new Cliente() { EmailId = model.Email });
+                        db.SaveChanges();
+                        cc.Cliente = db.Cliente.Single(c => c.EmailId.Equals(model.Email));
                     }
 
                     return RedirectToLocal(returnUrl);
@@ -164,12 +167,14 @@ namespace TiendaVirtualAlejandro.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    if (cc.Cliente != null && !String.IsNullOrEmpty(cc.Cliente.Email) && model.Email != cc.Cliente.Email)
+                    if (cc.Cliente != null && !String.IsNullOrEmpty(cc.Cliente.EmailId) && model.Email != cc.Cliente.EmailId)
                         cc.Clear();
-
-                    if (cc.Cliente == null || cc.Cliente.Email != model.Email)
+                    if (db.Cliente.SingleOrDefault(s => s.EmailId.Equals(model.Email)) is Cliente cliente)
+                        cc.Cliente = cliente;
+                    else
                     {
-                        cc.Cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(model.Email));
+                        cc.Cliente = db.Cliente.Add(new Cliente() { EmailId = model.Email });
+                        db.SaveChanges();
                     }
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     

@@ -17,7 +17,7 @@ namespace TiendaVirtualAlejandro.Controllers
         // GET: Pedido
         public ActionResult Index()
         {
-            return View(db.Pedido);
+            return View(db.Pedido.Where(p=>p.EmailCliente.EmailId.Equals(this.User.Identity.Name)).ToList());
         }
 
         // GET: Pedido/Details/5
@@ -129,8 +129,8 @@ namespace TiendaVirtualAlejandro.Controllers
         {
             Pedido pedido = new Pedido()
             {
-                Cliente = cc.Cliente,
-                ProductoVendido = new List<ProductoVendido>(),
+                EmailCliente = db.Cliente.Find(cc.Cliente.EmailId),
+                ProductosVendidos = new List<ProductoVendido>(),
             };
             ProductoVendido productoVendido;
             cc.ForEach(productoAlmacen =>
@@ -143,14 +143,15 @@ namespace TiendaVirtualAlejandro.Controllers
                     Descripcion = productoAlmacen.Descripcion,
                     Foto = productoAlmacen.Foto,
                     Precio = productoAlmacen.Precio,
+                    Pedido = pedido,
                 };
                 db.ProductosVendidos.Add(productoVendido);
-                pedido.ProductoVendido.Add(productoVendido);
+                pedido.ProductosVendidos.Add(productoVendido);
                 db.ProductosAlmacen.Find(productoAlmacen.Id).CantidadAlmacen -= productoAlmacen.CantidadCarrito;
             });
             db.SaveChanges();
             cc.Clear();
-            return RedirectToAction("Index", pedido);
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

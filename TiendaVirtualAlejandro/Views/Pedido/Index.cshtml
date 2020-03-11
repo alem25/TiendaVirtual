@@ -12,7 +12,7 @@
             @Html.Label("Identificador del pedido")
         </th>
         <th>
-            @Html.Label("Cantidad de productos comprados")
+            @Html.Label("Kilogramos de producto comprado")
         </th>
         <th>
             @Html.Label("Precio total del Pedido")
@@ -26,23 +26,30 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("" + item.Id, "Details", new { id = item.Id })
-            </td>
-            <td>
-                @Html.Label("" + item.Stock.Count)
+                @Html.ActionLink("" + item.PedidoId, "Details", new { id = item.PedidoId })
             </td>
             <td>
                 @{
-                    decimal total = 0.00m;
-                    foreach (var prod in item.Stock)
+                    int totalKg = 0;
+                    foreach (var prod in item.ProductosVendidos)
                     {
-                        total += prod.Producto.Precio * (decimal)prod.Cantidad;
+                        totalKg += prod.Cantidad;
                     }
-                    @Html.Label(""+total)
+                    @("" + totalKg + " kg.");
                 }
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @{
+                    decimal totalEuros = 0.00m;
+                    foreach (var prod in item.ProductosVendidos)
+                    {
+                        totalEuros += prod.Precio * (decimal)prod.Cantidad;
+                    }
+                    @("" + totalEuros + " €");
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.PedidoId })
             </td>
         </tr>
     }

@@ -46,7 +46,7 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nombre,Apellidos,Email")] Cliente cliente)
+        public ActionResult Create([Bind(Include = "EmailId,Nombre,Apellidos")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace TiendaVirtualAlejandro.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Apellidos,Email")] Cliente cliente)
+        public ActionResult Edit([Bind(Include = "EmailId,Nombre,Apellidos")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -118,27 +118,27 @@ namespace TiendaVirtualAlejandro.Controllers
         [Authorize]
         public ActionResult MiPerfil()
         {
-            var cliente = db.Cliente.SingleOrDefault(c => c.Email.Equals(this.User.Identity.Name));
+            var cliente = db.Cliente.SingleOrDefault(c => c.EmailId.Equals(this.User.Identity.Name));
             return View(cliente);
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult MiPerfil([Bind(Include = "Id,Nombre,Apellidos,Email")] Cliente cliente)
+        public ActionResult MiPerfil([Bind(Include = "EmailId,Nombre,Apellidos")] Cliente cliente)
         {
-            if (!db.Cliente.Any(c => c.Email.Equals(this.User.Identity.Name)))
+            if (!db.Cliente.Any(c => c.EmailId.Equals(this.User.Identity.Name)))
             {
                 db.Cliente.Add(new Cliente()
                 {
-                    Email = this.User.Identity.Name,
+                    EmailId = this.User.Identity.Name,
                     Nombre = cliente.Nombre,
                     Apellidos = cliente.Apellidos,
                 });
             }
             else
             {
-                var cli = db.Cliente.Single(c=>c.Email.Equals(this.User.Identity.Name));
+                var cli = db.Cliente.Single(c=>c.EmailId.Equals(this.User.Identity.Name));
                 cli.Nombre = cliente.Nombre;
                 cli.Apellidos = cliente.Apellidos;
             }

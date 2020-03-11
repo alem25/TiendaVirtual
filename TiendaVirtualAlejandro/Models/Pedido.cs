@@ -17,13 +17,13 @@ namespace TiendaVirtualAlejandro.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Pedido()
         {
-            this.ProductoVendido = new HashSet<ProductoVendido>();
+            this.ProductosVendidos = new HashSet<ProductoVendido>();
         }
     
         public int PedidoId { get; set; }
     
-        public virtual Cliente Cliente { get; set; }
+        public virtual Cliente EmailCliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductoVendido> ProductoVendido { get; set; }
+        public virtual ICollection<ProductoVendido> ProductosVendidos { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace TiendaVirtualAlejandro.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProductoVendido()
         {
+            this.Precio = 0m;
             this.Cantidad = 0;
         }
     
