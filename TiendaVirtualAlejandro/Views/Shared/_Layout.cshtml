@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Tienda Virtual Alejandro</title>
@@ -25,9 +25,9 @@
                     @if (!User.Identity.Name.Equals(""))
                     {
                         <li>@Html.ActionLink("Mis Pedidos", "Index", "Pedido")</li>
-                        <li>@Html.ActionLink("Mi Perfil", "MiPerfil", "Cliente")</li>
+                        <li><a href="@Url.Action("MiPerfil","Cliente")">Mi Perfil  <span class="glyphicon glyphicon-user"></span></a></li>
                     }
-                    <li>@Html.ActionLink("Carrito de Compra", "MiCarrito", "Pedido")</li>
+                <li><a href="@Url.Action("MiCarrito","Pedido")">Mi Carrito  <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
