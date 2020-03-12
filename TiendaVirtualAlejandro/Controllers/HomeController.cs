@@ -13,16 +13,36 @@ namespace TiendaVirtualAlejandro.Controllers
     {
         public ActionResult Index()
         {
-            //ApplicationDbContext context = new ApplicationDbContext();
+            ApplicationDbContext context = new ApplicationDbContext();
 
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            //var role = new IdentityRole();
-            //role.Name = "Admin";
-            //roleManager.Create(role);
+            string[] roleNames = { "Admin", "Comprador" };
+            List<IdentityRole> identityRoles = roleManager.Roles.ToList();
 
-            //userManager.AddToRole(User.Identity.GetUserId(), "Admin");
+            foreach (var rol in roleNames)
+            {
+                if (!identityRoles.Any(s=>s.Name.Equals(rol)))
+                    roleManager.Create(new IdentityRole(rol));
+            }
+
+            const string admin = "the@admin";
+            const string adminPass = "3edcVFR$";
+
+            if (!userManager.Users.Any(u => u.Email.Equals(admin)))
+            {
+                ApplicationUser adminUser = new ApplicationUser()
+                {
+                    UserName = admin,
+                    Email = admin,
+                };
+
+                IdentityResult createAdminUser = userManager.Create(adminUser, adminPass);
+
+                if (createAdminUser.Succeeded)
+                    userManager.AddToRole(adminUser.Id, roleNames[0]);
+            }
 
             return View();
         }
