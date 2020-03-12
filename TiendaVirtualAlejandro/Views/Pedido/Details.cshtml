@@ -42,7 +42,7 @@
                         <img src="~/Content/Fotos/@item.Foto" style="max-width: 64px;" />
                     </td>
                     <td>
-                        @Html.ActionLink(item.Nombre, "Details", "Producto", new { id = item.Id }, null)
+                        @Html.DisplayFor(i => item.Nombre)
                     </td>
                     <td>
                         @Html.DisplayFor(i => item.Precio) €/Kg

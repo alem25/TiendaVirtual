@@ -37,7 +37,7 @@
         @Html.ActionLink(item.Nombre, "Details", new { id = item.Id })
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Precio)
+        @Html.DisplayFor(modelItem => item.Precio) €/Kg
     </td>
     <td>
         <img src="~/Content/Fotos/@item.Foto" style="max-width: 100px;" />
@@ -51,7 +51,7 @@
     <td>
         @if (item.CantidadAlmacen > 0)
         {
-            @Html.DisplayFor(modelItem => item.CantidadAlmacen);
+            @Html.DisplayFor(modelItem => item.CantidadAlmacen); @:Kg
         }
         else
         {

@@ -1,0 +1,25 @@
+﻿--Seed database
+
+SET IDENTITY_INSERT [dbo].[ProductosAlmacen] ON
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (1, N'Kiwis', NULL, N'kiwis.png', CAST(2.02 AS Decimal(18, 2)), 0, 0, 4)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (2, N'Mango', N'Mangos molones', N'mangos.jpg', CAST(7.55 AS Decimal(18, 2)), 1, 0, 4)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (3, N'Zanahoria', NULL, N'zanahorias.jpg', CAST(1.20 AS Decimal(18, 2)), 2, 0, 3)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (4, N'Brocoli', NULL, N'brocoli.jpg', CAST(2.12 AS Decimal(18, 2)), 2, 1, 3)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (5, N'Cacahuetes', NULL, N'cacahuetes.jpg', CAST(1.30 AS Decimal(18, 2)), 0, 0, 0)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (6, N'Arroz', NULL, N'arroz.jpg', CAST(1.10 AS Decimal(18, 2)), 11, 0, 2)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (7, N'Trigo', NULL, N'trigo.jpg', CAST(1.20 AS Decimal(18, 2)), 15, 0, 2)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (8, N'Maíz', NULL, N'maiz.png', CAST(1.65 AS Decimal(18, 2)), 7, 0, 2)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (9, N'Coliflor', NULL, N'coliflor.jpg', CAST(1.90 AS Decimal(18, 2)), 6, 0, 3)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (10, N'Plátanos', NULL, N'bananas.jpg', CAST(1.40 AS Decimal(18, 2)), 14, 1, 4)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (11, N'Manzana', NULL, N'manzana.jpg', CAST(1.33 AS Decimal(18, 2)), 2, 0, 4)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (12, N'Albahaca', NULL, N'albahaca.jpg', CAST(1.25 AS Decimal(18, 2)), 3, 0, 5)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (13, N'Alubias negras', NULL, N'alubiasnegras.jpg', CAST(1.40 AS Decimal(18, 2)), 8, 0, 1)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (14, N'Garbanzos', NULL, N'garbanzos.jpg', CAST(0.90 AS Decimal(18, 2)), 17, 1, 1)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (15, N'Nueces', NULL, N'nueces.jpg', CAST(7.20 AS Decimal(18, 2)), 5, 0, 0)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (16, N'Uvas', NULL, N'uvas.jpg', CAST(3.80 AS Decimal(18, 2)), 6, 0, 4)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (18, N'Jengibre', NULL, N'jengibre.jpg', CAST(0.85 AS Decimal(18, 2)), 3, 0, 5)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (19, N'Almendras', NULL, N'almendras.jpg', CAST(3.15 AS Decimal(18, 2)), 4, 0, 0)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (20, N'Arándanos', NULL, N'arandanos.jpg', CAST(4.50 AS Decimal(18, 2)), 0, 0, 4)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (21, N'Limón', NULL, N'limon.jpg', CAST(2.45 AS Decimal(18, 2)), 10, 0, 4)
+INSERT INTO [dbo].[ProductosAlmacen] ([Id], [Nombre], [Descripcion], [Foto], [Precio], [CantidadAlmacen], [CantidadCarrito], [Categoria]) VALUES (22, N'Pistachos', NULL, N'pistachos.jpg', CAST(12.05 AS Decimal(18, 2)), 11, 0, 0)
+SET IDENTITY_INSERT [dbo].[ProductosAlmacen] OFF
