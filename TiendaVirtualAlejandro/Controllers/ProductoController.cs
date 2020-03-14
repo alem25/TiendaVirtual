@@ -198,7 +198,6 @@ namespace TiendaVirtualAlejandro.Controllers
         }
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public ActionResult Search(string busqueda)
         {
             if (String.IsNullOrEmpty(busqueda))

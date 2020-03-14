@@ -122,6 +122,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cc);
         }
 
+        [Authorize]
         public ActionResult Purchase(CarritoCompra cc)
         {
             Pedido pedido = new Pedido()
