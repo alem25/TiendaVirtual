@@ -14,7 +14,6 @@ namespace TiendaVirtualAlejandro.Controllers
     {
         private ModeloContainer db = new ModeloContainer();
 
-        // GET: Producto de una categoría
         public ActionResult Index(Category? category)
         {
             if(category == null)
@@ -23,7 +22,6 @@ namespace TiendaVirtualAlejandro.Controllers
                 return View(db.ProductosAlmacen.Where(p => p.Categoria.ToString().Equals(category.ToString())).ToList());
         }
 
-        // GET: Producto/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,16 +36,14 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(producto);
         }
 
-        // GET: Producto/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Producto/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Nombre,Precio,Foto,Descripcion,Categoria,CantidadAlmacen,CantidadCarrito")] ProductoAlmacen producto)
         {            
@@ -61,7 +57,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(producto);
         }
 
-        // GET: Producto/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -76,10 +72,8 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(producto);
         }
 
-        // POST: Producto/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Nombre,Precio,Foto,Descripcion,Categoria,CantidadAlmacen,CantidadCarrito")] ProductoAlmacen producto)
         {
@@ -92,7 +86,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(producto);
         }
 
-        // GET: Producto/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,8 +101,8 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(producto);
         }
 
-        // POST: Producto/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -204,6 +198,7 @@ namespace TiendaVirtualAlejandro.Controllers
         }
 
         [HttpGet]
+        [ValidateAntiForgeryToken]
         public ActionResult Search(string busqueda)
         {
             if (String.IsNullOrEmpty(busqueda))

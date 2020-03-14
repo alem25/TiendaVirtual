@@ -14,13 +14,13 @@ namespace TiendaVirtualAlejandro.Controllers
     {
         private ModeloContainer db = new ModeloContainer();
 
-        // GET: Cliente
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Cliente.ToList());
         }
 
-        // GET: Cliente/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,16 +35,14 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cliente);
         }
 
-        // GET: Cliente/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Cliente/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmailId,Nombre,Apellidos")] Cliente cliente)
         {
@@ -58,7 +56,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cliente);
         }
 
-        // GET: Cliente/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,10 +71,8 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cliente);
         }
 
-        // POST: Cliente/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "EmailId,Nombre,Apellidos")] Cliente cliente)
         {
@@ -89,7 +85,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cliente);
         }
 
-        // GET: Cliente/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,7 +100,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(cliente);
         }
 
-        // POST: Cliente/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

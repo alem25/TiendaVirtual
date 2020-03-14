@@ -14,13 +14,13 @@ namespace TiendaVirtualAlejandro.Controllers
     {
         private ModeloContainer db = new ModeloContainer();
 
-        // GET: Pedido
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.Pedido.Where(p=>p.EmailCliente.EmailId.Equals(this.User.Identity.Name)).ToList());
         }
 
-        // GET: Pedido/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -28,23 +28,22 @@ namespace TiendaVirtualAlejandro.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Pedido pedido = db.Pedido.Find(id);
-            if (pedido == null)
+            if (pedido == null || !pedido.EmailCliente.EmailId.Equals(this.User.Identity.Name))
             {
                 return HttpNotFound();
             }
+            
             return View(pedido);
         }
 
-        // GET: Pedido/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Pedido/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id")] Pedido pedido)
         {
@@ -58,7 +57,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // GET: Pedido/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,10 +72,8 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // POST: Pedido/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id")] Pedido pedido)
         {
@@ -89,7 +86,7 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // GET: Pedido/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,8 +101,8 @@ namespace TiendaVirtualAlejandro.Controllers
             return View(pedido);
         }
 
-        // POST: Pedido/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
