@@ -173,8 +173,9 @@ namespace TiendaVirtualAlejandro.Controllers
                         cc.Cliente = cliente;
                     else
                     {
-                        cc.Cliente = db.Cliente.Add(new Cliente() { EmailId = model.Email });
+                        db.Cliente.Add(new Cliente() { EmailId = model.Email });
                         db.SaveChanges();
+                        cc.Cliente = db.Cliente.Single(c => c.EmailId.Equals(model.Email));
                     }
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     

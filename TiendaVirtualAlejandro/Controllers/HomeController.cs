@@ -44,6 +44,11 @@ namespace TiendaVirtualAlejandro.Controllers
                     userManager.AddToRole(adminUser.Id, roleNames[0]);
             }
 
+            var identityUserRole = userManager.Users.Where(u => u.Email.Equals(this.User.Identity.Name)).FirstOrDefault();
+            
+            if (identityUserRole != null && identityUserRole.Roles.Count == 0)
+                 userManager.AddToRole(this.User.Identity.GetUserId(), roleNames[1]);
+
             return View();
         }
 
