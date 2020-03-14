@@ -203,6 +203,15 @@ namespace TiendaVirtualAlejandro.Controllers
             return RedirectToAction("MiCarrito", "Pedido");
         }
 
+        [HttpGet]
+        public ActionResult Search(string busqueda)
+        {
+            if (String.IsNullOrEmpty(busqueda))
+                return View("Index", db.ProductosAlmacen);
+            else
+                return View("Index", db.ProductosAlmacen.Where(p => p.Nombre.ToUpper().Contains(busqueda.ToUpper().Trim()) || p.Categoria.ToString().ToUpper().Contains(busqueda.ToUpper().Trim())));
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

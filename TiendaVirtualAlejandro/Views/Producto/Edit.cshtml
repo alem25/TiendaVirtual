@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Editar producto</h2>
 
 
 @using (Html.BeginForm())
@@ -26,7 +26,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CantidadAlmacen, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.Label("Cantidad en almacén", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.CantidadAlmacen, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.CantidadAlmacen, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.Label("Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
@@ -58,7 +58,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.Label("Categoría", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EnumDropDownListFor(model => model.Categoria, "---", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
@@ -74,7 +74,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver a la lista", "Index")
 </div>
 
 @section Scripts {

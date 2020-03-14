@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2></h2>
 
 <div>
     <h4>Producto</h4>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CantidadAlmacen)
+            @Html.DisplayName("Cantidad en almacén")
         </dt>
 
         <dd>
@@ -45,11 +45,11 @@
         </dt>
 
         <dd>
-            <img src="~/Content/Fotos/@Model.Foto" style="max-width: 500px" />
+            <img src="~/Content/Fotos/@Model.Foto" style="max-width: 500px;max-height:500px" />
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Descripcion)
+            @Html.DisplayName("Descripción")
         </dt>
 
         <dd>
@@ -61,8 +61,12 @@
 <p>
     @if (Model.CantidadAlmacen > 0)
     {
-        @Html.ActionLink("Add To Cart", "AddToCart", new { id = Model.Id })
-    } |
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Añadir al carro", "AddToCart", new { id = Model.Id }) @:|
+    }
+
+    @if (this.User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) @:|
+    }
+    @Html.ActionLink("Volver a la lista", "Index")
 </p>

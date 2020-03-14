@@ -27,7 +27,20 @@
                         <li>@Html.ActionLink("Mis Pedidos", "Index", "Pedido")</li>
                         <li><a href="@Url.Action("MiPerfil","Cliente")">Mi Perfil  <span class="glyphicon glyphicon-user"></span></a></li>
                     }
-                <li><a href="@Url.Action("MiCarrito","Pedido")">Mi Carrito  <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                    <li><a href="@Url.Action("MiCarrito","Pedido")">Mi Carrito  <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                    <li>
+                        @using (@Html.BeginForm("Search", "Producto", FormMethod.Get, htmlAttributes: new { @class = "form-inline", @style = "padding:0.5em" }))
+                        {
+                            <div class="col-xs-4 col-sm-12">
+                                <div class="input-group">
+                                    <input type="text" id="busqueda" name="busqueda" class="form-control" maxlength="15" placeholder="Escribe algo..." />
+                                    <div class="input-group-btn">
+                                        <button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
