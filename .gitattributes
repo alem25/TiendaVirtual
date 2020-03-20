@@ -1,0 +1,5 @@
+# to ignore all the .js files which are inside the script folder
+*.js linguist-vendored
+# all .cs and razor pages .cshtml contains csharp code
+*.cshtml linguist-language=C#
+*.cs linguist-language=C#
